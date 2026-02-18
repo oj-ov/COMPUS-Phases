@@ -17,6 +17,33 @@ Version 4.0 HI-TECH Software Intermediate Code
 "1013
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1013: extern volatile LATAbits_t LATAbits __attribute__((address(0xF89)));
 [v _LATAbits `VS42 ~T0 @X0 0 e@3977 ]
+"1328
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1328:     struct {
+[s S52 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S52 . LATD0 LATD1 LATD2 LATD3 LATD4 LATD5 LATD6 LATD7 ]
+"1338
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1338:     struct {
+[s S53 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S53 . LD0 LD1 LD2 LD3 LD4 LD5 LD6 LD7 ]
+"1327
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1327: typedef union {
+[u S51 `S52 1 `S53 1 ]
+[n S51 . . . ]
+"1349
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1349: extern volatile LATDbits_t LATDbits __attribute__((address(0xF8C)));
+[v _LATDbits `VS51 ~T0 @X0 0 e@3980 ]
+"17 ./ADT_EUSART.h
+[; ;./ADT_EUSART.h: 17: unsigned char openExteriorDoorSent(void);
+[v _openExteriorDoorSent `(uc ~T0 @X0 0 ef ]
+"23 ./ADT_TIMER.h
+[; ;./ADT_TIMER.h: 23: unsigned char TI_NewTimer(unsigned char *TimerHandle) ;
+[v _TI_NewTimer `(uc ~T0 @X0 0 ef1`*uc ]
+"27
+[; ;./ADT_TIMER.h: 27: void TI_ResetTics (unsigned char TimerHandle);
+[v _TI_ResetTics `(v ~T0 @X0 0 ef1`uc ]
+"31
+[; ;./ADT_TIMER.h: 31: unsigned long TI_GetTics (unsigned char TimerHandle);
+[v _TI_GetTics `(ul ~T0 @X0 0 ef1`uc ]
 "52 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 52: __asm("PORTA equ 0F80h");
 [; <" PORTA equ 0F80h ;# ">
@@ -431,76 +458,136 @@ Version 4.0 HI-TECH Software Intermediate Code
 "7008
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 7008: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"12 MAIN_CONTROLLER_ADT.c
-[; ;MAIN_CONTROLLER_ADT.c: 12: void MainControllerMotor(void) {
+"15 MAIN_CONTROLLER_ADT.c
+[; ;MAIN_CONTROLLER_ADT.c: 15: unsigned char timer0;
+[v _timer0 `uc ~T0 @X0 1 e ]
+"17
+[; ;MAIN_CONTROLLER_ADT.c: 17: void MainControllerMotor(void) {
 [v _MainControllerMotor `(v ~T0 @X0 1 ef ]
 {
 [e :U _MainControllerMotor ]
 [f ]
-"14
-[; ;MAIN_CONTROLLER_ADT.c: 14:     static unsigned char state = 0x00;
-[v F2697 `uc ~T0 @X0 1 s state ]
-[i F2697
+"19
+[; ;MAIN_CONTROLLER_ADT.c: 19:     static unsigned char state = 0x00;
+[v F2710 `uc ~T0 @X0 1 s state ]
+[i F2710
 -> -> 0 `i `uc
 ]
-"16
-[; ;MAIN_CONTROLLER_ADT.c: 16:     switch (state) {
+"21
+[; ;MAIN_CONTROLLER_ADT.c: 21:     switch (state) {
 [e $U 304  ]
 {
-"20
-[; ;MAIN_CONTROLLER_ADT.c: 20:         case 0x00:
+"25
+[; ;MAIN_CONTROLLER_ADT.c: 25:         case 0x00:
 [e :U 305 ]
-"24
-[; ;MAIN_CONTROLLER_ADT.c: 24:             if (newMessageSent() == 0x01) {
+"29
+[; ;MAIN_CONTROLLER_ADT.c: 29:             if (newMessageSent() == 0x01) {
 [e $ ! == -> ( _newMessageSent ..  `i -> 1 `i 306  ]
 {
-"25
-[; ;MAIN_CONTROLLER_ADT.c: 25:                 state = 0x01;
-[e = F2697 -> -> 1 `i `uc ]
-"26
-[; ;MAIN_CONTROLLER_ADT.c: 26:             } else {
+"30
+[; ;MAIN_CONTROLLER_ADT.c: 30:                 state = 0x01;
+[e = F2710 -> -> 1 `i `uc ]
+"31
+[; ;MAIN_CONTROLLER_ADT.c: 31:             }
 }
-[e $U 307  ]
 [e :U 306 ]
-{
-"27
-[; ;MAIN_CONTROLLER_ADT.c: 27:                 state = 0x00;
-[e = F2697 -> -> 0 `i `uc ]
-"28
-[; ;MAIN_CONTROLLER_ADT.c: 28:             }
-}
+"32
+[; ;MAIN_CONTROLLER_ADT.c: 32:             break;
+[e $U 303  ]
+"36
+[; ;MAIN_CONTROLLER_ADT.c: 36:         case 0x01:
 [e :U 307 ]
-"29
-[; ;MAIN_CONTROLLER_ADT.c: 29:             break;
-[e $U 303  ]
-"33
-[; ;MAIN_CONTROLLER_ADT.c: 33:         case 0x01:
-[e :U 308 ]
-"34
-[; ;MAIN_CONTROLLER_ADT.c: 34:             LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"35
-[; ;MAIN_CONTROLLER_ADT.c: 35:             break;
-[e $U 303  ]
 "37
-[; ;MAIN_CONTROLLER_ADT.c: 37:         default:
-[e :U 309 ]
+[; ;MAIN_CONTROLLER_ADT.c: 37:             LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"38
+[; ;MAIN_CONTROLLER_ADT.c: 38:             if(LATDbits.LATD7 == 0 ){
+[e $ ! == -> . . _LATDbits 0 7 `i -> 0 `i 308  ]
+{
 "39
-[; ;MAIN_CONTROLLER_ADT.c: 39:             state = 0x00;
-[e = F2697 -> -> 0 `i `uc ]
+[; ;MAIN_CONTROLLER_ADT.c: 39:                 state = 0x02;
+[e = F2710 -> -> 2 `i `uc ]
 "40
-[; ;MAIN_CONTROLLER_ADT.c: 40:             break;
-[e $U 303  ]
+[; ;MAIN_CONTROLLER_ADT.c: 40:             }
+}
+[e :U 308 ]
 "41
-[; ;MAIN_CONTROLLER_ADT.c: 41:     }
+[; ;MAIN_CONTROLLER_ADT.c: 41:             break;
+[e $U 303  ]
+"46
+[; ;MAIN_CONTROLLER_ADT.c: 46:         case 0x02:
+[e :U 309 ]
+"47
+[; ;MAIN_CONTROLLER_ADT.c: 47:             if(openExteriorDoorSent() == 0x02){
+[e $ ! == -> ( _openExteriorDoorSent ..  `i -> 2 `i 310  ]
+{
+"48
+[; ;MAIN_CONTROLLER_ADT.c: 48:                 state = 0x03;
+[e = F2710 -> -> 3 `i `uc ]
+"49
+[; ;MAIN_CONTROLLER_ADT.c: 49:             }
+}
+[e :U 310 ]
+"50
+[; ;MAIN_CONTROLLER_ADT.c: 50:             break;
+[e $U 303  ]
+"54
+[; ;MAIN_CONTROLLER_ADT.c: 54:         case 0x03:
+[e :U 311 ]
+"55
+[; ;MAIN_CONTROLLER_ADT.c: 55:             TI_NewTimer(&timer0);
+[e ( _TI_NewTimer (1 &U _timer0 ]
+"56
+[; ;MAIN_CONTROLLER_ADT.c: 56:             TI_ResetTics(timer0);
+[e ( _TI_ResetTics (1 _timer0 ]
+"57
+[; ;MAIN_CONTROLLER_ADT.c: 57:             state = 0x04;
+[e = F2710 -> -> 4 `i `uc ]
+"58
+[; ;MAIN_CONTROLLER_ADT.c: 58:             break;
+[e $U 303  ]
+"62
+[; ;MAIN_CONTROLLER_ADT.c: 62:         case 0x04:
+[e :U 312 ]
+"63
+[; ;MAIN_CONTROLLER_ADT.c: 63:             if(TI_GetTics(timer0) == 1000){
+[e $ ! == ( _TI_GetTics (1 _timer0 -> -> -> 1000 `i `l `ul 313  ]
+{
+"64
+[; ;MAIN_CONTROLLER_ADT.c: 64:                 TI_ResetTics(timer0);
+[e ( _TI_ResetTics (1 _timer0 ]
+"65
+[; ;MAIN_CONTROLLER_ADT.c: 65:                 state = 0x05;
+[e = F2710 -> -> 5 `i `uc ]
+"66
+[; ;MAIN_CONTROLLER_ADT.c: 66:             }
+}
+[e :U 313 ]
+"67
+[; ;MAIN_CONTROLLER_ADT.c: 67:             break;
+[e $U 303  ]
+"69
+[; ;MAIN_CONTROLLER_ADT.c: 69:         default:
+[e :U 314 ]
+"71
+[; ;MAIN_CONTROLLER_ADT.c: 71:             state = 0x00;
+[e = F2710 -> -> 0 `i `uc ]
+"72
+[; ;MAIN_CONTROLLER_ADT.c: 72:             break;
+[e $U 303  ]
+"73
+[; ;MAIN_CONTROLLER_ADT.c: 73:     }
 }
 [e $U 303  ]
 [e :U 304 ]
-[e [\ F2697 , $ -> 0 `i 305
- , $ -> 1 `i 308
- 309 ]
+[e [\ F2710 , $ -> 0 `i 305
+ , $ -> 1 `i 307
+ , $ -> 2 `i 309
+ , $ -> 3 `i 311
+ , $ -> 4 `i 312
+ 314 ]
 [e :U 303 ]
-"42
-[; ;MAIN_CONTROLLER_ADT.c: 42: }
+"74
+[; ;MAIN_CONTROLLER_ADT.c: 74: }
 [e :UE 302 ]
 }

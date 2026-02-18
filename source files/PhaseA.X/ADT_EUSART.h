@@ -14,6 +14,7 @@ extern "C" {
 
 // Public function prototypes
 unsigned char newMessageSent(void);
+unsigned char openExteriorDoorSent(void);
 void eusartMotor(void);
 
 #ifdef __cplusplus

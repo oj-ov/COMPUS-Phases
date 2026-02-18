@@ -4828,6 +4828,7 @@ void MainControllerMotor(void);
 # 1 "./ADT_EUSART.h" 1
 # 16 "./ADT_EUSART.h"
 unsigned char newMessageSent(void);
+unsigned char openExteriorDoorSent(void);
 void eusartMotor(void);
 # 14 "main.c" 2
 
@@ -4846,7 +4847,7 @@ void main(void);
 static void __attribute__((picinterrupt(("high_priority")))) MyISR(void) {
 
     if (INTCONbits.TMR0IF == 1) {
-        INTCONbits.TMR0IF = 0;
+        RSI_Timer0();
 
     }
 }

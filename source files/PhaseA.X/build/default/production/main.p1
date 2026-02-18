@@ -20,7 +20,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "6731
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 6731: extern volatile INTCONbits_t INTCONbits __attribute__((address(0xFF2)));
 [v _INTCONbits `VS273 ~T0 @X0 0 e@4082 ]
-"1941
+"15 ./ADT_TIMER.h
+[; ;./ADT_TIMER.h: 15: void RSI_Timer0(void);
+[v _RSI_Timer0 `(v ~T0 @X0 0 ef ]
+"1941 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1941:     struct {
 [s S70 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S70 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
@@ -107,8 +110,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "16 ./MAIN_CONTROLLER_ADT.h
 [; ;./MAIN_CONTROLLER_ADT.h: 16: void MainControllerMotor(void);
 [v _MainControllerMotor `(v ~T0 @X0 0 ef ]
-"17 ./ADT_EUSART.h
-[; ;./ADT_EUSART.h: 17: void eusartMotor(void);
+"18 ./ADT_EUSART.h
+[; ;./ADT_EUSART.h: 18: void eusartMotor(void);
 [v _eusartMotor `(v ~T0 @X0 0 ef ]
 "52 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 52: __asm("PORTA equ 0F80h");
@@ -545,7 +548,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "30
 [; ;main.c: 30: void main(void) {
-[e = . . _INTCONbits 0 2 -> -> 0 `i `uc ]
+[e ( _RSI_Timer0 ..  ]
 "32
 [; ;main.c: 32:     initPorts();
 }

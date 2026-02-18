@@ -8,6 +8,11 @@
 #include <xc.h>
 #include "MAIN_CONTROLLER_ADT.h"
 #include "ADT_EUSART.h"
+#include "ADT_TIMER.h"
+
+#define TWO_SECONDS 1000
+
+unsigned char timer0;
 
 void MainControllerMotor(void) {
 
@@ -23,8 +28,6 @@ void MainControllerMotor(void) {
              */
             if (newMessageSent() == 0x01) {
                 state = 0x01;
-            } else {
-                state = 0x00;
             }
             break;
 
@@ -32,6 +35,35 @@ void MainControllerMotor(void) {
         // Turn ON the STATE_OK signal
         case 0x01:
             LATAbits.LATA3 = 1;   // Turn ON the STATE_OK signal
+            if(LATDbits.LATD7 == 0 ){ // 1: No magnet. 2: Magnet.
+                state = 0x02;
+            }
+            break;
+            
+            
+        // STATE 2: 
+        // Send the open exterior door message
+        case 0x02:
+            if(openExteriorDoorSent() == 0x02){
+                state = 0x03;
+            }
+            break;
+        
+        // STATE 3: 
+        // Create new timer to count new seconds and reset its ticks
+        case 0x03:
+            TI_NewTimer(&timer0);
+            TI_ResetTics(timer0);
+            state = 0x04;
+            break;
+            
+        // STATE 4: 
+        // Start counting the ticks for 2 seconds
+        case 0x04:
+            if(TI_GetTics(timer0) == TWO_SECONDS){
+                TI_ResetTics(timer0);
+                state = 0x05;
+            }
             break;
 
         default:

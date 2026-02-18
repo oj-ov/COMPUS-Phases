@@ -27,7 +27,7 @@ void main(void);
 static void __interrupt(high_priority) MyISR(void) {
 
     if (INTCONbits.TMR0IF == 1) {
-        INTCONbits.TMR0IF = 0;
+        RSI_Timer0();
         // TODO: Add Timer0 interrupt handling
     }
 }

@@ -452,10 +452,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 "19
-[; ;ADT_EUSART.c: 19: static unsigned char newDayMessage[20] = "New day has started!";
-[v _newDayMessage `uc ~T0 @X0 -> 20 `i s ]
+[; ;ADT_EUSART.c: 19: static unsigned char newDayMessage[33] = "> LSBank - New day has started!\n";
+[v _newDayMessage `uc ~T0 @X0 -> 33 `i s ]
 [i _newDayMessage
 :U ..
+-> 62 `c
+-> 32 `c
+-> 76 `c
+-> 83 `c
+-> 66 `c
+-> 97 `c
+-> 110 `c
+-> 107 `c
+-> 32 `c
+-> 45 `c
+-> 32 `c
 -> 78 `c
 -> 101 `c
 -> 119 `c
@@ -476,152 +487,253 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 101 `c
 -> 100 `c
 -> 33 `c
+-> 10 `c
+-> 0 `c
 ..
 ]
-"24
-[; ;ADT_EUSART.c: 24: unsigned char newMessageSent(void) {
+"20
+[; ;ADT_EUSART.c: 20: static unsigned char openExteriorDoorMessage[31] = "> LSBank - Open exterior door\n";
+[v _openExteriorDoorMessage `uc ~T0 @X0 -> 31 `i s ]
+[i _openExteriorDoorMessage
+:U ..
+-> 62 `c
+-> 32 `c
+-> 76 `c
+-> 83 `c
+-> 66 `c
+-> 97 `c
+-> 110 `c
+-> 107 `c
+-> 32 `c
+-> 45 `c
+-> 32 `c
+-> 79 `c
+-> 112 `c
+-> 101 `c
+-> 110 `c
+-> 32 `c
+-> 101 `c
+-> 120 `c
+-> 116 `c
+-> 101 `c
+-> 114 `c
+-> 105 `c
+-> 111 `c
+-> 114 `c
+-> 32 `c
+-> 100 `c
+-> 111 `c
+-> 111 `c
+-> 114 `c
+-> 10 `c
+-> 0 `c
+..
+]
+"25
+[; ;ADT_EUSART.c: 25: unsigned char newMessageSent(void) {
 [v _newMessageSent `(uc ~T0 @X0 1 ef ]
 {
 [e :U _newMessageSent ]
 [f ]
-"25
-[; ;ADT_EUSART.c: 25:     enablers |= 0x01;
-[e =| _enablers -> -> 1 `i `uc ]
 "26
-[; ;ADT_EUSART.c: 26:     return (confirmedEnablers & 0x01);
+[; ;ADT_EUSART.c: 26:     enablers |= 0x01;
+[e =| _enablers -> -> 1 `i `uc ]
+"27
+[; ;ADT_EUSART.c: 27:     return (confirmedEnablers & 0x01);
 [e ) -> & -> _confirmedEnablers `i -> 1 `i `uc ]
 [e $UE 302  ]
-"27
-[; ;ADT_EUSART.c: 27: }
+"28
+[; ;ADT_EUSART.c: 28: }
 [e :UE 302 ]
 }
-"29
-[; ;ADT_EUSART.c: 29: void eusartMotor(void) {
+"30
+[; ;ADT_EUSART.c: 30: unsigned char openExteriorDoorSent(void){
+[v _openExteriorDoorSent `(uc ~T0 @X0 1 ef ]
+{
+[e :U _openExteriorDoorSent ]
+[f ]
+"31
+[; ;ADT_EUSART.c: 31:     enablers |= 0x02;
+[e =| _enablers -> -> 2 `i `uc ]
+"32
+[; ;ADT_EUSART.c: 32:     return (confirmedEnablers & 0x02);
+[e ) -> & -> _confirmedEnablers `i -> 2 `i `uc ]
+[e $UE 303  ]
+"33
+[; ;ADT_EUSART.c: 33: }
+[e :UE 303 ]
+}
+"35
+[; ;ADT_EUSART.c: 35: void eusartMotor(void) {
 [v _eusartMotor `(v ~T0 @X0 1 ef ]
 {
 [e :U _eusartMotor ]
 [f ]
-"31
-[; ;ADT_EUSART.c: 31:     static unsigned char state = 0x00;
-[v F2701 `uc ~T0 @X0 1 s state ]
-[i F2701
+"37
+[; ;ADT_EUSART.c: 37:     static unsigned char state = 0x00;
+[v F2704 `uc ~T0 @X0 1 s state ]
+[i F2704
 -> -> 0 `i `uc
 ]
-"32
-[; ;ADT_EUSART.c: 32:     static unsigned char messageIndex = 0x00;
-[v F2702 `uc ~T0 @X0 1 s messageIndex ]
-[i F2702
--> -> 0 `i `uc
-]
-"34
-[; ;ADT_EUSART.c: 34:     switch (state) {
-[e $U 305  ]
-{
 "38
-[; ;ADT_EUSART.c: 38:         case 0x00:
-[e :U 306 ]
-"39
-[; ;ADT_EUSART.c: 39:             TXSTAbits.TXEN = 0;
-[e = . . _TXSTAbits 0 5 -> -> 0 `i `uc ]
+[; ;ADT_EUSART.c: 38:     static unsigned char messageIndex = 0x00;
+[v F2705 `uc ~T0 @X0 1 s messageIndex ]
+[i F2705
+-> -> 0 `i `uc
+]
 "40
-[; ;ADT_EUSART.c: 40:             if (enablers & 0x01) {
-[e $ ! != & -> _enablers `i -> 1 `i -> 0 `i 307  ]
-{
-"41
-[; ;ADT_EUSART.c: 41:                 state = 0x01;
-[e = F2701 -> -> 1 `i `uc ]
-"42
-[; ;ADT_EUSART.c: 42:             }
-}
-[e $U 308  ]
-"43
-[; ;ADT_EUSART.c: 43:             else if (enablers & 0x02) {
-[e :U 307 ]
-[e $ ! != & -> _enablers `i -> 2 `i -> 0 `i 309  ]
+[; ;ADT_EUSART.c: 40:     switch (state) {
+[e $U 306  ]
 {
 "44
-[; ;ADT_EUSART.c: 44:                 state = 0x02;
-[e = F2701 -> -> 2 `i `uc ]
+[; ;ADT_EUSART.c: 44:         case 0x00:
+[e :U 307 ]
 "45
-[; ;ADT_EUSART.c: 45:             }
+[; ;ADT_EUSART.c: 45:             TXSTAbits.TXEN = 0;
+[e = . . _TXSTAbits 0 5 -> -> 0 `i `uc ]
+"46
+[; ;ADT_EUSART.c: 46:             if (enablers & 0x01) {
+[e $ ! != & -> _enablers `i -> 1 `i -> 0 `i 308  ]
+{
+"47
+[; ;ADT_EUSART.c: 47:                 state = 0x01;
+[e = F2704 -> -> 1 `i `uc ]
+"48
+[; ;ADT_EUSART.c: 48:             }
+}
+[e :U 308 ]
+"49
+[; ;ADT_EUSART.c: 49:             if (enablers & 0x02) {
+[e $ ! != & -> _enablers `i -> 2 `i -> 0 `i 309  ]
+{
+"50
+[; ;ADT_EUSART.c: 50:                 state = 0x02;
+[e = F2704 -> -> 2 `i `uc ]
+"51
+[; ;ADT_EUSART.c: 51:             }
 }
 [e :U 309 ]
-[e :U 308 ]
-"46
-[; ;ADT_EUSART.c: 46:             break;
-[e $U 304  ]
-"50
-[; ;ADT_EUSART.c: 50:         case 0x01:
-[e :U 310 ]
-"51
-[; ;ADT_EUSART.c: 51:             TXSTAbits.TXEN = 1;
-[e = . . _TXSTAbits 0 5 -> -> 1 `i `uc ]
 "52
-[; ;ADT_EUSART.c: 52:             if (messageIndex < 20) {
-[e $ ! < -> F2702 `i -> 20 `i 311  ]
+[; ;ADT_EUSART.c: 52:             break;
+[e $U 305  ]
+"56
+[; ;ADT_EUSART.c: 56:         case 0x01:
+[e :U 310 ]
+"57
+[; ;ADT_EUSART.c: 57:             TXSTAbits.TXEN = 1;
+[e = . . _TXSTAbits 0 5 -> -> 1 `i `uc ]
+"58
+[; ;ADT_EUSART.c: 58:             if (messageIndex < 33) {
+[e $ ! < -> F2705 `i -> 33 `i 311  ]
 {
-"54
-[; ;ADT_EUSART.c: 54:                 if (TXSTAbits.TRMT == 1) {
+"60
+[; ;ADT_EUSART.c: 60:                 if (TXSTAbits.TRMT == 1) {
 [e $ ! == -> . . _TXSTAbits 0 1 `i -> 1 `i 312  ]
 {
-"55
-[; ;ADT_EUSART.c: 55:                     TXREG = newDayMessage[messageIndex++];
-[e = _TXREG *U + &U _newDayMessage * -> ++ F2702 -> -> 1 `i `uc `ux -> -> # *U &U _newDayMessage `ui `ux ]
-"56
-[; ;ADT_EUSART.c: 56:                 }
+"61
+[; ;ADT_EUSART.c: 61:                     TXREG = newDayMessage[messageIndex++];
+[e = _TXREG *U + &U _newDayMessage * -> ++ F2705 -> -> 1 `i `uc `ux -> -> # *U &U _newDayMessage `ui `ux ]
+"62
+[; ;ADT_EUSART.c: 62:                 }
 }
 [e :U 312 ]
-"58
-[; ;ADT_EUSART.c: 58:             } else {
+"64
+[; ;ADT_EUSART.c: 64:             } else {
 }
 [e $U 313  ]
 [e :U 311 ]
 {
-"60
-[; ;ADT_EUSART.c: 60:                 messageIndex = 0x00;
-[e = F2702 -> -> 0 `i `uc ]
-"61
-[; ;ADT_EUSART.c: 61:                 enablers &= 0xFE;
+"66
+[; ;ADT_EUSART.c: 66:                 TXSTAbits.TXEN = 0;
+[e = . . _TXSTAbits 0 5 -> -> 0 `i `uc ]
+"67
+[; ;ADT_EUSART.c: 67:                 messageIndex = 0x00;
+[e = F2705 -> -> 0 `i `uc ]
+"68
+[; ;ADT_EUSART.c: 68:                 enablers &= 0xFE;
 [e =& _enablers -> -> 254 `i `uc ]
-"62
-[; ;ADT_EUSART.c: 62:                 confirmedEnablers |= 0x01;
+"69
+[; ;ADT_EUSART.c: 69:                 confirmedEnablers |= 0x01;
 [e =| _confirmedEnablers -> -> 1 `i `uc ]
-"63
-[; ;ADT_EUSART.c: 63:                 state = 0x00;
-[e = F2701 -> -> 0 `i `uc ]
-"64
-[; ;ADT_EUSART.c: 64:             }
+"70
+[; ;ADT_EUSART.c: 70:                 state = 0x00;
+[e = F2704 -> -> 0 `i `uc ]
+"71
+[; ;ADT_EUSART.c: 71:             }
 }
 [e :U 313 ]
-"65
-[; ;ADT_EUSART.c: 65:             break;
-[e $U 304  ]
-"69
-[; ;ADT_EUSART.c: 69:         case 0x02:
-[e :U 314 ]
-"71
-[; ;ADT_EUSART.c: 71:             break;
-[e $U 304  ]
-"73
-[; ;ADT_EUSART.c: 73:         default:
-[e :U 315 ]
-"74
-[; ;ADT_EUSART.c: 74:             state = 0x00;
-[e = F2701 -> -> 0 `i `uc ]
-"75
-[; ;ADT_EUSART.c: 75:             break;
-[e $U 304  ]
+"72
+[; ;ADT_EUSART.c: 72:             break;
+[e $U 305  ]
 "76
-[; ;ADT_EUSART.c: 76:     }
+[; ;ADT_EUSART.c: 76:         case 0x02:
+[e :U 314 ]
+"77
+[; ;ADT_EUSART.c: 77:             TXSTAbits.TXEN = 1;
+[e = . . _TXSTAbits 0 5 -> -> 1 `i `uc ]
+"78
+[; ;ADT_EUSART.c: 78:             if(messageIndex < 31){
+[e $ ! < -> F2705 `i -> 31 `i 315  ]
+{
+"79
+[; ;ADT_EUSART.c: 79:                 if(TXSTAbits.TRMT == 1){
+[e $ ! == -> . . _TXSTAbits 0 1 `i -> 1 `i 316  ]
+{
+"80
+[; ;ADT_EUSART.c: 80:                     TXREG = openExteriorDoorMessage[messageIndex++];
+[e = _TXREG *U + &U _openExteriorDoorMessage * -> ++ F2705 -> -> 1 `i `uc `ux -> -> # *U &U _openExteriorDoorMessage `ui `ux ]
+"81
+[; ;ADT_EUSART.c: 81:                 }
 }
-[e $U 304  ]
-[e :U 305 ]
-[e [\ F2701 , $ -> 0 `i 306
+[e :U 316 ]
+"82
+[; ;ADT_EUSART.c: 82:             }else{
+}
+[e $U 317  ]
+[e :U 315 ]
+{
+"84
+[; ;ADT_EUSART.c: 84:                 TXSTAbits.TXEN = 0;
+[e = . . _TXSTAbits 0 5 -> -> 0 `i `uc ]
+"85
+[; ;ADT_EUSART.c: 85:                 messageIndex = 0x00;
+[e = F2705 -> -> 0 `i `uc ]
+"86
+[; ;ADT_EUSART.c: 86:                 enablers &= 0xFD;
+[e =& _enablers -> -> 253 `i `uc ]
+"87
+[; ;ADT_EUSART.c: 87:                 confirmedEnablers |= 0x02;
+[e =| _confirmedEnablers -> -> 2 `i `uc ]
+"88
+[; ;ADT_EUSART.c: 88:                 state = 0x00;
+[e = F2704 -> -> 0 `i `uc ]
+"89
+[; ;ADT_EUSART.c: 89:             }
+}
+[e :U 317 ]
+"90
+[; ;ADT_EUSART.c: 90:             break;
+[e $U 305  ]
+"92
+[; ;ADT_EUSART.c: 92:         default:
+[e :U 318 ]
+"93
+[; ;ADT_EUSART.c: 93:             state = 0x00;
+[e = F2704 -> -> 0 `i `uc ]
+"94
+[; ;ADT_EUSART.c: 94:             break;
+[e $U 305  ]
+"95
+[; ;ADT_EUSART.c: 95:     }
+}
+[e $U 305  ]
+[e :U 306 ]
+[e [\ F2704 , $ -> 0 `i 307
  , $ -> 1 `i 310
  , $ -> 2 `i 314
- 315 ]
-[e :U 304 ]
-"77
-[; ;ADT_EUSART.c: 77: }
-[e :UE 303 ]
+ 318 ]
+[e :U 305 ]
+"96
+[; ;ADT_EUSART.c: 96: }
+[e :UE 304 ]
 }

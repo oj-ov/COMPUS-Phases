@@ -4798,8 +4798,41 @@ void MainControllerMotor(void);
 # 1 "./ADT_EUSART.h" 1
 # 16 "./ADT_EUSART.h"
 unsigned char newMessageSent(void);
+unsigned char openExteriorDoorSent(void);
 void eusartMotor(void);
 # 11 "MAIN_CONTROLLER_ADT.c" 2
+# 1 "./ADT_TIMER.h" 1
+# 15 "./ADT_TIMER.h"
+void RSI_Timer0(void);
+
+
+
+void TI_Init (void);
+
+
+
+unsigned char TI_NewTimer(unsigned char *TimerHandle) ;
+
+
+
+void TI_ResetTics (unsigned char TimerHandle);
+
+
+
+unsigned long TI_GetTics (unsigned char TimerHandle);
+
+
+
+void TI_CloseTimer (unsigned char TimerHandle);
+
+
+
+void TI_End (void);
+# 12 "MAIN_CONTROLLER_ADT.c" 2
+
+
+
+unsigned char timer0;
 
 void MainControllerMotor(void) {
 
@@ -4815,8 +4848,6 @@ void MainControllerMotor(void) {
 
             if (newMessageSent() == 0x01) {
                 state = 0x01;
-            } else {
-                state = 0x00;
             }
             break;
 
@@ -4824,6 +4855,35 @@ void MainControllerMotor(void) {
 
         case 0x01:
             LATAbits.LATA3 = 1;
+            if(LATDbits.LATD7 == 0 ){
+                state = 0x02;
+            }
+            break;
+
+
+
+
+        case 0x02:
+            if(openExteriorDoorSent() == 0x02){
+                state = 0x03;
+            }
+            break;
+
+
+
+        case 0x03:
+            TI_NewTimer(&timer0);
+            TI_ResetTics(timer0);
+            state = 0x04;
+            break;
+
+
+
+        case 0x04:
+            if(TI_GetTics(timer0) == 1000){
+                TI_ResetTics(timer0);
+                state = 0x05;
+            }
             break;
 
         default:

@@ -1,4 +1,5 @@
 build/default/production/MAIN_CONTROLLER_ADT.p1:  \
 MAIN_CONTROLLER_ADT.c  \
 MAIN_CONTROLLER_ADT.h  \
-ADT_EUSART.h 
+ADT_EUSART.h  \
+ADT_TIMER.h 

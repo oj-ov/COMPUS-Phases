@@ -20,7 +20,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "6731
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 6731: extern volatile INTCONbits_t INTCONbits __attribute__((address(0xFF2)));
 [v _INTCONbits `VS273 ~T0 @X0 0 e@4082 ]
-"1941
+"15 ./ADT_TIMER.h
+[; ;./ADT_TIMER.h: 15: void RSI_Timer0(void);
+[v _RSI_Timer0 `(v ~T0 @X0 0 ef ]
+"1941 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1941:     struct {
 [s S70 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S70 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
@@ -35,6 +38,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 "1962
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1962: extern volatile TRISCbits_t TRISCbits __attribute__((address(0xF94)));
 [v _TRISCbits `VS69 ~T0 @X0 0 e@3988 ]
+"1497
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1497:     struct {
+[s S58 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S58 . TRISA0 TRISA1 TRISA2 TRISA3 TRISA4 TRISA5 TRISA6 TRISA7 ]
+"1507
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1507:     struct {
+[s S59 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S59 . RA0 RA1 RA2 RA3 RA4 RA5 RA6 RA7 ]
+"1496
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1496: typedef union {
+[u S57 `S58 1 `S59 1 ]
+[n S57 . . . ]
+"1518
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1518: extern volatile TRISAbits_t TRISAbits __attribute__((address(0xF92)));
+[v _TRISAbits `VS57 ~T0 @X0 0 e@3986 ]
 "5684
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 5684:     struct {
 [s S237 :1 `uc 1 ]
@@ -71,14 +89,29 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 5722: extern volatile RCONbits_t RCONbits __attribute__((address(0xFD0)));
 [v _RCONbits `VS236 ~T0 @X0 0 e@4048 ]
 [p mainexit ]
+"992
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 992:     struct {
+[s S43 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S43 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"1002
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1002:     struct {
+[s S44 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S44 . LA0 LA1 LA2 LA3 LA4 LA5 LA6 LA7 ]
+"991
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 991: typedef union {
+[u S42 `S43 1 `S44 1 ]
+[n S42 . . . ]
+"1013
+[; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 1013: extern volatile LATAbits_t LATAbits __attribute__((address(0xF89)));
+[v _LATAbits `VS42 ~T0 @X0 0 e@3977 ]
 "19 ./ADT_TIMER.h
 [; ;./ADT_TIMER.h: 19: void TI_Init (void);
 [v _TI_Init `(v ~T0 @X0 0 ef ]
 "16 ./MAIN_CONTROLLER_ADT.h
 [; ;./MAIN_CONTROLLER_ADT.h: 16: void MainControllerMotor(void);
 [v _MainControllerMotor `(v ~T0 @X0 0 ef ]
-"17 ./ADT_EUSART.h
-[; ;./ADT_EUSART.h: 17: void eusartMotor(void);
+"18 ./ADT_EUSART.h
+[; ;./ADT_EUSART.h: 18: void eusartMotor(void);
 [v _eusartMotor `(v ~T0 @X0 0 ef ]
 "52 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h
 [; ;C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h: 52: __asm("PORTA equ 0F80h");
@@ -510,69 +543,77 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _MyISR ]
 [f ]
 "29
-[; ;main.c: 29:     initInterrupts();
+[; ;main.c: 29: 
 [e $ ! == -> . . _INTCONbits 0 2 `i -> 1 `i 303  ]
 {
 "30
-[; ;main.c: 30: 
-[e = . . _INTCONbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 30: void main(void) {
+[e ( _RSI_Timer0 ..  ]
 "32
-[; ;main.c: 32:     TI_Init();
+[; ;main.c: 32:     initPorts();
 }
 [e :U 303 ]
 "33
-[; ;main.c: 33: 
+[; ;main.c: 33:     initInterrupts();
 [e :UE 302 ]
 }
 "35
-[; ;main.c: 35:         MainControllerMotor();
+[; ;main.c: 35: 
 [v _initPorts `(v ~T0 @X0 1 ef ]
 {
 [e :U _initPorts ]
 [f ]
 "37
-[; ;main.c: 37:     }
+[; ;main.c: 37: 
 [e = . . _TRISCbits 0 6 -> -> 1 `i `uc ]
 "38
-[; ;main.c: 38: }
+[; ;main.c: 38:     while (1) {
 [e = . . _TRISCbits 0 7 -> -> 1 `i `uc ]
-"39
+"40
+[; ;main.c: 40:         eusartMotor();
+[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+"41
+[; ;main.c: 41:     }
+[e = . . _TRISAbits 0 4 -> -> 0 `i `uc ]
+"43
 [e :UE 304 ]
 }
-"41
+"45
 [v _initInterrupts `(v ~T0 @X0 1 ef ]
 {
 [e :U _initInterrupts ]
 [f ]
-"42
+"46
 [e = . . _RCONbits 5 6 -> -> 1 `i `uc ]
-"44
+"48
 [e :UE 305 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"46
+"50
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"48
-[e ( _initPorts ..  ]
-"49
-[e ( _initInterrupts ..  ]
 "52
-[e ( _TI_Init ..  ]
+[e ( _initPorts ..  ]
+"53
+[e ( _initInterrupts ..  ]
 "54
+[e = . . _LATAbits 0 4 -> -> 0 `i `uc ]
+"56
+[e ( _TI_Init ..  ]
+"58
 [e :U 308 ]
 {
-"55
+"59
 [e ( _MainControllerMotor ..  ]
-"56
+"60
 [e ( _eusartMotor ..  ]
-"57
+"61
 }
 [e :U 307 ]
 [e $U 308  ]
 [e :U 309 ]
-"58
+"62
 [e :UE 306 ]
 }

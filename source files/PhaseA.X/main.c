@@ -27,7 +27,7 @@ void main(void);
 static void __interrupt(high_priority) MyISR(void) {
 
     if (INTCONbits.TMR0IF == 1) {
-        INTCONbits.TMR0IF = 0;
+        RSI_Timer0();
         // TODO: Add Timer0 interrupt handling
     }
 }
@@ -36,6 +36,10 @@ void initPorts(void) {
     // Initialize the EUSART ports
     TRISCbits.TRISC6 = 1;   // TX pin as input (auto-changes to output when writing TXREG)
     TRISCbits.TRISC7 = 1;   // RX pin as input
+    
+    TRISAbits.TRISA3 = 0;
+    TRISAbits.TRISA4 = 0;
+    
 }
 
 void initInterrupts(void) {
@@ -44,10 +48,10 @@ void initInterrupts(void) {
 }
 
 void main(void) {
-
+    
     initPorts();
     initInterrupts();
-
+    LATAbits.LATA4 = 0;
     // Initialize the timer ADT for all possible timers
     TI_Init();
 

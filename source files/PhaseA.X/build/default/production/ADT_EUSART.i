@@ -4794,6 +4794,7 @@ unsigned char __t3rd16on(void);
 # 1 "./ADT_EUSART.h" 1
 # 16 "./ADT_EUSART.h"
 unsigned char newMessageSent(void);
+unsigned char openExteriorDoorSent(void);
 void eusartMotor(void);
 # 10 "ADT_EUSART.c" 2
 
@@ -4805,7 +4806,8 @@ unsigned char enablers = 0x00;
 unsigned char confirmedEnablers = 0x00;
 
 
-static unsigned char newDayMessage[20] = "New day has started!";
+static unsigned char newDayMessage[33] = "> LSBank - New day has started!\n";
+static unsigned char openExteriorDoorMessage[31] = "> LSBank - Open exterior door\n";
 
 
 static void sendNewDayMessage(void);
@@ -4813,6 +4815,11 @@ static void sendNewDayMessage(void);
 unsigned char newMessageSent(void) {
     enablers |= 0x01;
     return (confirmedEnablers & 0x01);
+}
+
+unsigned char openExteriorDoorSent(void){
+    enablers |= 0x02;
+    return (confirmedEnablers & 0x02);
 }
 
 void eusartMotor(void) {
@@ -4829,7 +4836,7 @@ void eusartMotor(void) {
             if (enablers & 0x01) {
                 state = 0x01;
             }
-            else if (enablers & 0x02) {
+            if (enablers & 0x02) {
                 state = 0x02;
             }
             break;
@@ -4838,7 +4845,7 @@ void eusartMotor(void) {
 
         case 0x01:
             TXSTAbits.TXEN = 1;
-            if (messageIndex < 20) {
+            if (messageIndex < 33) {
 
                 if (TXSTAbits.TRMT == 1) {
                     TXREG = newDayMessage[messageIndex++];
@@ -4846,6 +4853,7 @@ void eusartMotor(void) {
 
             } else {
 
+                TXSTAbits.TXEN = 0;
                 messageIndex = 0x00;
                 enablers &= 0xFE;
                 confirmedEnablers |= 0x01;
@@ -4856,7 +4864,19 @@ void eusartMotor(void) {
 
 
         case 0x02:
+            TXSTAbits.TXEN = 1;
+            if(messageIndex < 31){
+                if(TXSTAbits.TRMT == 1){
+                    TXREG = openExteriorDoorMessage[messageIndex++];
+                }
+            }else{
 
+                TXSTAbits.TXEN = 0;
+                messageIndex = 0x00;
+                enablers &= 0xFD;
+                confirmedEnablers |= 0x02;
+                state = 0x00;
+            }
             break;
 
         default:

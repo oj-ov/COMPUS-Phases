@@ -3,12 +3,22 @@
 [d edition pro ]
 [d chip 18F4321 ]
 [d frameptr 4065 ]
-"24 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
+"25 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
 [v _newMessageSent newMessageSent `(uc  1 e 1 0 ]
-"29
+"30
+[v _openExteriorDoorSent openExteriorDoorSent `(uc  1 e 1 0 ]
+"35
 [v _eusartMotor eusartMotor `(v  1 e 1 0 ]
-"36 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_TIMER.c
+"29 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_TIMER.c
+[v _RSI_Timer0 RSI_Timer0 `(v  1 e 1 0 ]
+"36
 [v _TI_Init TI_Init `(v  1 e 1 0 ]
+"47
+[v _TI_NewTimer TI_NewTimer `(uc  1 e 1 0 ]
+"57
+[v _TI_ResetTics TI_ResetTics `(v  1 e 1 0 ]
+"62
+[v _TI_GetTics TI_GetTics `(ul  1 e 4 0 ]
 "4 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\fleq.c
 [v ___fleq __fleq `(b  1 e 0 0 ]
 "62 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\float.c
@@ -37,24 +47,26 @@
 [v _MyISR MyISR `IIH(v  1 s 1 MyISR ]
 "35
 [v _initPorts initPorts `(v  1 e 1 0 ]
-"41
+"45
 [v _initInterrupts initInterrupts `(v  1 e 1 0 ]
-"46
+"50
 [v _main main `(v  1 e 1 0 ]
-"12 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\MAIN_CONTROLLER_ADT.c
+"17 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\MAIN_CONTROLLER_ADT.c
 [v _MainControllerMotor MainControllerMotor `(v  1 e 1 0 ]
 "13 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
 [v _enablers enablers `uc  1 e 1 0 ]
 "16
 [v _confirmedEnablers confirmedEnablers `uc  1 e 1 0 ]
 "19
-[v _newDayMessage newDayMessage `[20]uc  1 s 20 newDayMessage ]
-[s S349 Timer 5 `ul 1 InitialTics 4 0 `uc 1 Busy 1 4 ]
+[v _newDayMessage newDayMessage `[33]uc  1 s 33 newDayMessage ]
+"20
+[v _openExteriorDoorMessage openExteriorDoorMessage `[31]uc  1 s 31 openExteriorDoorMessage ]
+[s S493 Timer 5 `ul 1 InitialTics 4 0 `uc 1 Busy 1 4 ]
 "25 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_TIMER.c
-[v _Timers Timers `[4]S349  1 s 20 Timers ]
+[v _Timers Timers `[4]S493  1 s 20 Timers ]
 "27
 [v _Tics Tics `VEul  1 s 4 Tics ]
-[s S231 . 1 `uc 1 LATA0 1 0 :1:0 
+[s S226 . 1 `uc 1 LATA0 1 0 :1:0 
 `uc 1 LATA1 1 0 :1:1 
 `uc 1 LATA2 1 0 :1:2 
 `uc 1 LATA3 1 0 :1:3 
@@ -64,7 +76,7 @@
 `uc 1 LATA7 1 0 :1:7 
 ]
 "1013 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f4321.h
-[s S240 . 1 `uc 1 LA0 1 0 :1:0 
+[s S235 . 1 `uc 1 LA0 1 0 :1:0 
 `uc 1 LA1 1 0 :1:1 
 `uc 1 LA2 1 0 :1:2 
 `uc 1 LA3 1 0 :1:3 
@@ -73,9 +85,51 @@
 `uc 1 LA6 1 0 :1:6 
 `uc 1 LA7 1 0 :1:7 
 ]
-[u S249 . 1 `S231 1 . 1 0 `S240 1 . 1 0 ]
-[v _LATAbits LATAbits `VES249  1 e 1 @3977 ]
-[s S73 . 1 `uc 1 TRISC0 1 0 :1:0 
+[u S244 . 1 `S226 1 . 1 0 `S235 1 . 1 0 ]
+[v _LATAbits LATAbits `VES244  1 e 1 @3977 ]
+[s S353 . 1 `uc 1 LATD0 1 0 :1:0 
+`uc 1 LATD1 1 0 :1:1 
+`uc 1 LATD2 1 0 :1:2 
+`uc 1 LATD3 1 0 :1:3 
+`uc 1 LATD4 1 0 :1:4 
+`uc 1 LATD5 1 0 :1:5 
+`uc 1 LATD6 1 0 :1:6 
+`uc 1 LATD7 1 0 :1:7 
+]
+"1349
+[s S362 . 1 `uc 1 LD0 1 0 :1:0 
+`uc 1 LD1 1 0 :1:1 
+`uc 1 LD2 1 0 :1:2 
+`uc 1 LD3 1 0 :1:3 
+`uc 1 LD4 1 0 :1:4 
+`uc 1 LD5 1 0 :1:5 
+`uc 1 LD6 1 0 :1:6 
+`uc 1 LD7 1 0 :1:7 
+]
+[u S371 . 1 `S353 1 . 1 0 `S362 1 . 1 0 ]
+[v _LATDbits LATDbits `VES371  1 e 1 @3980 ]
+[s S117 . 1 `uc 1 TRISA0 1 0 :1:0 
+`uc 1 TRISA1 1 0 :1:1 
+`uc 1 TRISA2 1 0 :1:2 
+`uc 1 TRISA3 1 0 :1:3 
+`uc 1 TRISA4 1 0 :1:4 
+`uc 1 TRISA5 1 0 :1:5 
+`uc 1 TRISA6 1 0 :1:6 
+`uc 1 TRISA7 1 0 :1:7 
+]
+"1518
+[s S126 . 1 `uc 1 RA0 1 0 :1:0 
+`uc 1 RA1 1 0 :1:1 
+`uc 1 RA2 1 0 :1:2 
+`uc 1 RA3 1 0 :1:3 
+`uc 1 RA4 1 0 :1:4 
+`uc 1 RA5 1 0 :1:5 
+`uc 1 RA6 1 0 :1:6 
+`uc 1 RA7 1 0 :1:7 
+]
+[u S135 . 1 `S117 1 . 1 0 `S126 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES135  1 e 1 @3986 ]
+[s S77 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -85,7 +139,7 @@
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "1962
-[s S82 . 1 `uc 1 RC0 1 0 :1:0 
+[s S86 . 1 `uc 1 RC0 1 0 :1:0 
 `uc 1 RC1 1 0 :1:1 
 `uc 1 RC2 1 0 :1:2 
 `uc 1 RC3 1 0 :1:3 
@@ -94,9 +148,9 @@
 `uc 1 RC6 1 0 :1:6 
 `uc 1 RC7 1 0 :1:7 
 ]
-[u S91 . 1 `S73 1 . 1 0 `S82 1 . 1 0 ]
-[v _TRISCbits TRISCbits `VES91  1 e 1 @3988 ]
-[s S281 . 1 `uc 1 TX9D 1 0 :1:0 
+[u S95 . 1 `S77 1 . 1 0 `S86 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES95  1 e 1 @3988 ]
+[s S423 . 1 `uc 1 TX9D 1 0 :1:0 
 `uc 1 TRMT 1 0 :1:1 
 `uc 1 BRGH 1 0 :1:2 
 `uc 1 SENDB 1 0 :1:3 
@@ -106,7 +160,7 @@
 `uc 1 CSRC 1 0 :1:7 
 ]
 "3368
-[s S290 . 1 `uc 1 TX9D1 1 0 :1:0 
+[s S432 . 1 `uc 1 TX9D1 1 0 :1:0 
 `uc 1 TRMT1 1 0 :1:1 
 `uc 1 BRGH1 1 0 :1:2 
 `uc 1 SENDB1 1 0 :1:3 
@@ -115,31 +169,31 @@
 `uc 1 TX91 1 0 :1:6 
 `uc 1 CSRC1 1 0 :1:7 
 ]
-[s S299 . 1 `uc 1 . 1 0 :6:0 
+[s S441 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 TX8_9 1 0 :1:6 
 ]
-[s S302 . 1 `uc 1 TXD8 1 0 :1:0 
+[s S444 . 1 `uc 1 TXD8 1 0 :1:0 
 ]
-[u S304 . 1 `S281 1 . 1 0 `S290 1 . 1 0 `S299 1 . 1 0 `S302 1 . 1 0 ]
-[v _TXSTAbits TXSTAbits `VES304  1 e 1 @4012 ]
+[u S446 . 1 `S423 1 . 1 0 `S432 1 . 1 0 `S441 1 . 1 0 `S444 1 . 1 0 ]
+[v _TXSTAbits TXSTAbits `VES446  1 e 1 @4012 ]
 "3585
 [v _TXREG TXREG `VEuc  1 e 1 @4013 ]
-[s S113 . 1 `uc 1 NOT_BOR 1 0 :1:0 
+[s S157 . 1 `uc 1 NOT_BOR 1 0 :1:0 
 ]
 "5722
-[s S115 . 1 `uc 1 . 1 0 :1:0 
+[s S159 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 NOT_POR 1 0 :1:1 
 ]
-[s S118 . 1 `uc 1 . 1 0 :2:0 
+[s S162 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 NOT_PD 1 0 :1:2 
 ]
-[s S121 . 1 `uc 1 . 1 0 :3:0 
+[s S165 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 NOT_TO 1 0 :1:3 
 ]
-[s S124 . 1 `uc 1 . 1 0 :4:0 
+[s S168 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 NOT_RI 1 0 :1:4 
 ]
-[s S127 . 1 `uc 1 nBOR 1 0 :1:0 
+[s S171 . 1 `uc 1 nBOR 1 0 :1:0 
 `uc 1 nPOR 1 0 :1:1 
 `uc 1 nPD 1 0 :1:2 
 `uc 1 nTO 1 0 :1:3 
@@ -147,7 +201,7 @@
 `uc 1 . 1 0 :2:5 
 `uc 1 IPEN 1 0 :1:7 
 ]
-[s S135 . 1 `uc 1 BOR 1 0 :1:0 
+[s S179 . 1 `uc 1 BOR 1 0 :1:0 
 `uc 1 POR 1 0 :1:1 
 `uc 1 PD 1 0 :1:2 
 `uc 1 TO 1 0 :1:3 
@@ -155,8 +209,8 @@
 `uc 1 . 1 0 :1:5 
 `uc 1 SBOREN 1 0 :1:6 
 ]
-[u S143 . 1 `S113 1 . 1 0 `S115 1 . 1 0 `S118 1 . 1 0 `S121 1 . 1 0 `S124 1 . 1 0 `S127 1 . 1 0 `S135 1 . 1 0 ]
-[v _RCONbits RCONbits `VES143  1 e 1 @4048 ]
+[u S187 . 1 `S157 1 . 1 0 `S159 1 . 1 0 `S162 1 . 1 0 `S165 1 . 1 0 `S168 1 . 1 0 `S171 1 . 1 0 `S179 1 . 1 0 ]
+[v _RCONbits RCONbits `VES187  1 e 1 @4048 ]
 "6181
 [v _T0CON T0CON `VEuc  1 e 1 @4053 ]
 "6258
@@ -188,29 +242,31 @@
 [v _INTCONbits INTCONbits `VES46  1 e 1 @4082 ]
 "8680
 [v _TMR0IF TMR0IF `VEb  1 e 0 @32658 ]
-"46 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\main.c
+"15 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\MAIN_CONTROLLER_ADT.c
+[v _timer0 timer0 `uc  1 e 1 0 ]
+"50 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"58
+"62
 } 0
 "35
 [v _initPorts initPorts `(v  1 e 1 0 ]
 {
-"39
+"43
 } 0
-"41
+"45
 [v _initInterrupts initInterrupts `(v  1 e 1 0 ]
 {
-"44
+"48
 } 0
-"29 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
+"35 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
 [v _eusartMotor eusartMotor `(v  1 e 1 0 ]
 {
-"31
+"37
 [v eusartMotor@state state `uc  1 s 1 state ]
-"32
+"38
 [v eusartMotor@messageIndex messageIndex `uc  1 s 1 messageIndex ]
-"77
+"96
 } 0
 "36 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_TIMER.c
 [v _TI_Init TI_Init `(v  1 e 1 0 ]
@@ -219,20 +275,58 @@
 [v TI_Init@counter counter `uc  1 a 1 0 ]
 "45
 } 0
-"12 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\MAIN_CONTROLLER_ADT.c
+"17 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\MAIN_CONTROLLER_ADT.c
 [v _MainControllerMotor MainControllerMotor `(v  1 e 1 0 ]
 {
-"14
+"19
 [v MainControllerMotor@state state `uc  1 s 1 state ]
-"42
+"74
 } 0
-"24 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
+"30 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_EUSART.c
+[v _openExteriorDoorSent openExteriorDoorSent `(uc  1 e 1 0 ]
+{
+"33
+} 0
+"25
 [v _newMessageSent newMessageSent `(uc  1 e 1 0 ]
 {
-"27
+"28
+} 0
+"57 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_TIMER.c
+[v _TI_ResetTics TI_ResetTics `(v  1 e 1 0 ]
+{
+[v TI_ResetTics@TimerHandle TimerHandle `uc  1 p 1 wreg ]
+[v TI_ResetTics@TimerHandle TimerHandle `uc  1 p 1 wreg ]
+[v TI_ResetTics@TimerHandle TimerHandle `uc  1 p 1 0 ]
+"59
+} 0
+"47
+[v _TI_NewTimer TI_NewTimer `(uc  1 e 1 0 ]
+{
+"48
+[v TI_NewTimer@Counter Counter `uc  1 a 1 2 ]
+"47
+[v TI_NewTimer@TimerHandle TimerHandle `*.30uc  1 p 1 0 ]
+"55
+} 0
+"62
+[v _TI_GetTics TI_GetTics `(ul  1 e 4 0 ]
+{
+[v TI_GetTics@TimerHandle TimerHandle `uc  1 p 1 wreg ]
+"63
+[v TI_GetTics@CopyCurrentTics CopyCurrentTics `ul  1 a 4 8 ]
+"62
+[v TI_GetTics@TimerHandle TimerHandle `uc  1 p 1 wreg ]
+[v TI_GetTics@TimerHandle TimerHandle `uc  1 p 1 12 ]
+"65
 } 0
 "27 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\main.c
 [v _MyISR MyISR `IIH(v  1 s 1 MyISR ]
 {
 "33
+} 0
+"29 C:\Users\waven\OneDrive\Documents\COMPUS 25-26\2525_c\COMPUS-Phases\source files\PhaseA.X\ADT_TIMER.c
+[v _RSI_Timer0 RSI_Timer0 `(v  1 e 1 0 ]
+{
+"34
 } 0

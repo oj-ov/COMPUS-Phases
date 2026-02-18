@@ -4855,6 +4855,10 @@ void initPorts(void) {
 
     TRISCbits.TRISC6 = 1;
     TRISCbits.TRISC7 = 1;
+
+    TRISAbits.TRISA3 = 0;
+    TRISAbits.TRISA4 = 0;
+
 }
 
 void initInterrupts(void) {
@@ -4866,7 +4870,7 @@ void main(void) {
 
     initPorts();
     initInterrupts();
-
+    LATAbits.LATA4 = 0;
 
     TI_Init();
 

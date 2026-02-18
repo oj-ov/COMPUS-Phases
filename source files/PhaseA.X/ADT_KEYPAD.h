@@ -1,7 +1,7 @@
 #ifndef ADT_KEYPAD_H
 #define ADT_KEYPAD_H
 
-void KeypadInit(void);
+void Init_Keypad(void);
 //Pre: this functions needs to be called to initialize the keypad, sets the rows and colums as outputs and inputs.
 //Post: the keypad is initialized and ready to be used. And virtual timers for debouncing and sms are created.
 void KeyPadMotor(void);

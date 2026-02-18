@@ -6,8 +6,10 @@
 static unsigned char kp_sms_timer;
 static unsigned char kp_debounced;
 static unsigned char key_value = 0;
+static unsigned char keypad_num[4][3] = { {'1','2','3'}, {'4','5','6'},{'7','8','9'},{'*','0','#'} };
 
-void KeypadInit(void) {
+
+void Init_Keypad(void) {
     //ROWS(output)
     // Set RB values as output for keypad so from RB2 to RB5
     TRISBbits.TRISB2 = 0; 
@@ -31,7 +33,10 @@ void KeypadInit(void) {
 }
 
 void KeyPadMotor(void) {
+    unsigned char counter = 0;
 
+
+    switch()
 }
 
 // cause it has to compare with the upcoming values of the choice entered, so ot keeps on checking with that one.

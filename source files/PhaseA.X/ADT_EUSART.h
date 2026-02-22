@@ -16,6 +16,7 @@ extern "C" {
 unsigned char newMessageSent(void);
 unsigned char openExteriorDoorSent(void);
 void eusartMotor(void);
+void EU_SendChar(char ch);
 
 #ifdef __cplusplus
 }

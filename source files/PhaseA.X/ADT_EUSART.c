@@ -1,10 +1,3 @@
-/*
- * File:   ADT_EUSART.c
- * Author: waven
- *
- * Created on February 18, 2026, 12:05 PM
- */
-
 #include <xc.h>
 #include "ADT_EUSART.h"
 
@@ -30,6 +23,26 @@ unsigned char newMessageSent(void) {
 unsigned char openExteriorDoorSent(void){
     enablers |= 0x02;
     return (confirmedEnablers & 0x02);
+}
+void EU_SendChar(char ch) {
+    TXSTA.TXLEN = 1;
+    while(TXSTA.TMRT = 1){
+        TXREG = ch;
+    }
+}
+unsigned char closeExteriorDoorSent(void){
+    enablers |= 0x04; // bit 2
+    return (confirmedEnablers & 0x04); //returns 0x04 once done 
+}
+
+unsigned char enterPinSent(void){
+    enablers |= 0x08; // bit 3
+    return (confirmedEnablers & 0x08); //returns 0x08 once done
+}
+
+unsigned char permissionDeniedSent(void){
+    enablers |= 0x10; // bit 3
+    return (confirmedEnablers & 0x10); //returns 0x0A once done
 }
 
 void eusartMotor(void) {

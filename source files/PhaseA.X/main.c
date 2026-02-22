@@ -54,8 +54,11 @@ void main(void) {
     LATAbits.LATA4 = 0;
     // Initialize the timer ADT for all possible timers
     TI_Init();
-    Init_Keypad();
+    KS_Init();      
+    KSMS_Init(); 
     while (1) {
+        KS_Motor();
+        KSMS_Motor();
         MainControllerMotor();
         eusartMotor();
     }

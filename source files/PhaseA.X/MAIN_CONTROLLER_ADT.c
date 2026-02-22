@@ -10,7 +10,7 @@
 #include "ADT_EUSART.h"
 #include "ADT_TIMER.h"
 
-#define TWO_SECONDS 1000
+#define TWO_SECONDS 2000
 
 unsigned char timer0;
 

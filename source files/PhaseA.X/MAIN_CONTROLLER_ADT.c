@@ -3,11 +3,11 @@
 #include "ADT_EUSART.h"
 #include "ADT_TIMER.h"
 #include "ADT_SPEAKER.h" 
-#define TWO_SECONDS 2000
 #include "ADT_KEYSCAN.h"
 #include "ADT_KEYSMS.h"
 #include <string.h>
 
+#define TWO_SECONDS 2000
 #define PIN_LENGTH 7
 #define MAX_ATTEMPTS 3
 //UL is unsigned long, so only to have psotive range
@@ -154,7 +154,7 @@ void MainControllerMotor(void) {
             }
             break;
         case 0x0C: 
-            if(closeInteriorDoorSent() == something){
+            if(closeInteriorDoorSent() == 0x40){
                 SP_BeepHigh();
                 state = 0x0D;
             }

@@ -78,11 +78,11 @@ void MainControllerMotor(void) {
             if(closeExteriorDoorSent() == 0x04){
                 SP_BeepHigh();
                 state = 0x06;
-            }
             break;
         case 0x06: // enter pin and init pin timer
                 if(enterPinSent() == 0x08){
                     pin_index = 0;
+                    //only validate pin if ur coubter is 7, otherwise not enter so try to remove memset
                     memset(pin, 0, sizeof(pin)); // used to fill a contiguous block of memory with a specific value
                     TI_NewTimer(&pin_timer);
                     TI_ResetTics(pin_timer);
@@ -119,6 +119,7 @@ void MainControllerMotor(void) {
             break;
         }
         case 0x08:// validate pin
+        // cant use strcmp, have to compare byte by byte
             if(strcmp(pin,correct_pin) == 0){
                 pin_attempts = 0;
                 pin_index = 0; // reset the space
@@ -128,6 +129,7 @@ void MainControllerMotor(void) {
             else{ // if pin is wrong
                 pin_attempts++;
                 pin_index = 0; // reset the space
+                //cause the array is static, ican overwrite the password, 
                 memset(pin, 0, sizeof(pin));
                 if (pin_attempts >= MAX_ATTEMPTS || TI_GetTics(pin_timer) >= MAX_TIMEOUT) {
                     state = 0x10; // alarm for too many attempts.

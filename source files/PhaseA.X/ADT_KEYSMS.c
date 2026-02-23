@@ -6,6 +6,7 @@
 
 static unsigned char ksms_State = 0;
 static unsigned char ksms_timer = 0;
+//array[10][5]
 static const char *ksms_table[10] = {"1", "ABC2", "DEF3", "GHI4", "JKL5", "MNO6", "PQRS7", "TUV8", "WXYZ9", "0 "};
 static unsigned char ksms_lastcharvalue = 0;
 static unsigned char ksms_newCharFlag = 0;
@@ -45,7 +46,7 @@ void KSMS_Motor(void){
         case 0: 
             if(hasKey){
                 if(key == 10 || key == 11){
-                    break; // State = 0;
+                    break; // break is accepted
                 }
                 digit = key; // 0..9
                 ksms_lastdigit = digit;
@@ -103,3 +104,6 @@ void KSMS_Motor(void){
 
 
 
+
+
+//

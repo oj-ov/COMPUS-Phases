@@ -2,7 +2,7 @@
 #include "MAIN_CONTROLLER_ADT.h"
 #include "ADT_EUSART.h"
 #include "ADT_TIMER.h"
-
+#include "ADT_SPEAKER.h" 
 #define TWO_SECONDS 2000
 #include "ADT_KEYSCAN.h"
 #include "ADT_KEYSMS.h"
@@ -76,6 +76,7 @@ void MainControllerMotor(void) {
         //State 5
         case 0x05:// close the door + beep sound from speaker.
             if(closeExteriorDoorSent() == 0x04){
+                SP_BeepHigh();
                 state = 0x06;
             }
             break;
@@ -96,8 +97,8 @@ void MainControllerMotor(void) {
             unsigned long time_elapse = TI_GetTics(pin_timer);
             // based in the different sound timings
             unsigned long beep_interval = (time_elapse < WARN_FAST) ? 1000UL : 500UL; 
-            if (TI_GetTics(beepTimer) >= beep_interval) {
-                TI_ResetTics(beepTimer);
+            if (TI_GetTics(beep_timer) >= beep_interval) {
+                TI_ResetTics(beep_timer);
                 SP_BeepLow();
             }
             
@@ -141,6 +142,24 @@ void MainControllerMotor(void) {
                     state = 0x06; // re enter the pin.
                 }
         break;
+        case 0x0A: 
+            if (openInteriorDoorSent() == 0x20) {
+                TI_ResetTics(timer0);
+                state = 0x0B;
+            }
+            break;
+        case 0x0B: 
+            if(TI_GetTics(timer0) >= TWO_SECONDS){
+                state = 0x0C;
+            }
+            break;
+        case 0x0C: 
+            if(closeInteriorDoorSent() == something){
+                SP_BeepHigh();
+                state = 0x0D;
+            }
+            break;
+
         default:
             // Optional: handle unexpected states
             state = 0x00;

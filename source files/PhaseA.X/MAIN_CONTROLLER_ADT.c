@@ -5,167 +5,148 @@
 #include "ADT_SPEAKER.h" 
 #include "ADT_KEYSCAN.h"
 #include "ADT_KEYSMS.h"
-#include <string.h>
+#include "ADT_OUT.h"
+#include "ADT_PIN.h"
 
 #define TWO_SECONDS 2000
-#define PIN_LENGTH 7
-#define MAX_ATTEMPTS 3
-//UL is unsigned long, so only to have psotive range
-#define MAX_TIMEOUT 120000UL //2 mins
-#define WARN_FAST 105000UL //1:45 mins
-static char pin[PIN_LENGTH + 1]; // as it is 8 bits
-static unsigned char pin_index = 0;
-static unsigned char pin_attempts = 0;
-static const char correct_pin[PIN_LENGTH + 1] = "1611MON";
-static unsigned char pin_timer = 0;
-static unsigned char beep_timer = 0;
-unsigned char timer0 = 0;
 
 void MainControllerMotor(void) {
 
     static unsigned char state = 0x00;
 
     switch (state) {
-
-        // STATE 0:
-        // Send the "new day" message to the PC screen
-        case 0x00:
+       
+        case 0: // new day message 
             /* Calling the EUSART ADT to enable its message being sent and then
              * waiting for it to be sent before changing the state
              */
             pin_attempts = 0;
             if (newMessageSent() == 0x01) {
-                state = 0x01;
+                state = 1;
             }
             break;
 
-        // STATE 1:
-        // Turn ON the STATE_OK signal
-        case 0x01:
-            LATAbits.LATA3 = 1;   // Turn ON the STATE_OK signal
-            if(LATDbits.LATD7 == 0 ){ // 1: No magnet. 2: Magnet.
-                state = 0x02;
+        case 1: // Surveillance state_ok = on, wait Hall sensor
+            OUT_LedOkOn();   
+            if(LATDbits.LATD7 == 0 ){ // 1: No magnet. 0: Magnet.
+                state = 2;
             }
             break;
-            
-            
         // STATE 2: 
         // Send the open exterior door message
-        case 0x02:
+        case 2:
             if(openExteriorDoorSent() == 0x02){
-                state = 0x03;
+                state = 3;
             }
             break;
         
         // STATE 3: 
         // Create new timer to count new seconds and reset its ticks
-        case 0x03:
+        case 3:
             TI_NewTimer(&timer0);
             TI_ResetTics(timer0);
-            state = 0x04;
+            state = 4;
             break;
             
         // STATE 4: 
         // Start counting the ticks for 2 seconds
-        case 0x04:
+        case 4:
             if(TI_GetTics(timer0) >= TWO_SECONDS){
                 TI_ResetTics(timer0);
-                state = 0x05;
+                state = 5;
             }
             break;
         //State 5
-        case 0x05:// close the door + beep sound from speaker.
+        case 5:// close the door + beep sound from speaker.
             if(closeExteriorDoorSent() == 0x04){
                 SP_BeepHigh();
-                state = 0x06;
+                state = 6;
+            }
             break;
-        case 0x06: // enter pin and init pin timer
+        case 6: // enter pin and init pin timer
                 if(enterPinSent() == 0x08){
-                    pin_index = 0;
-                    //only validate pin if ur coubter is 7, otherwise not enter so try to remove memset
-                    memset(pin, 0, sizeof(pin)); // used to fill a contiguous block of memory with a specific value
-                    TI_NewTimer(&pin_timer);
-                    TI_ResetTics(pin_timer);
-                    TI_NewTimer(&beep_timer);  
-                    TI_ResetTics(beep_timer); 
-                    state = 0x07;
+                    PIN_StartEntry();
+                    OUT_LedIntensityOn();
+                    state = 7;
+                    
                 }
-        break;
-        case 0x07:{
-            KS_Motor();
-            KSMS_Motor();
-            unsigned long time_elapse = TI_GetTics(pin_timer);
-            // based in the different sound timings
-            unsigned long beep_interval = (time_elapse < WARN_FAST) ? 1000UL : 500UL; 
-            if (TI_GetTics(beep_timer) >= beep_interval) {
-                TI_ResetTics(beep_timer);
-                SP_BeepLow();
-            }
-            
-            // to recieve characters
-            if(KSMS_hasNewChar()){
-                char ch = KSMS_getLastChar();
-                pin[pin_index++] = ch;
-                EU_SendChar(ch);                
-            }
-            if(TI_GetTics(pin_timer) >= MAX_TIMEOUT){
-                state = 0x10;
+            break;
+        case 7:
+            //KS_Motor();
+            //KSMS_Motor();
+            PIN_Motor();
+            OUT_LedIntensityUpdate(TI_GetPinElapsed());
+            if(PIN_IsTimeout()){
+                state = 20; //alarm
                 break;
             }
-            if(pin_index >= PIN_LENGTH){
-                pin[PIN_LENGTH] = '\0';
-                state = 0x08;
+            if(PIN_IsComplete()){
+                state = 8;
             }
             break;
-        }
-        case 0x08:// validate pin
-        // cant use strcmp, have to compare byte by byte
-            if(strcmp(pin,correct_pin) == 0){
-                pin_attempts = 0;
-                pin_index = 0; // reset the space
-                LATAbits.LATA4 = 0; // turn of intensity led
-                state = 0x0A; // opening the interior door.
-            }
-            else{ // if pin is wrong
-                pin_attempts++;
-                pin_index = 0; // reset the space
-                //cause the array is static, ican overwrite the password, 
-                memset(pin, 0, sizeof(pin));
-                if (pin_attempts >= MAX_ATTEMPTS || TI_GetTics(pin_timer) >= MAX_TIMEOUT) {
-                    state = 0x10; // alarm for too many attempts.
-                }
-                else{
-                    state = 0x09; // permission denied then retry
+        case 8:// validate pin
+            if(PIN_IsValid()){
+                PIN_ResetAttempts();
+                OUT_LedIntensityOff();
+                state = 10;
+            } 
+            else {
+                PIN_IncrementAttempts();
+                if(PIN_GetAttempts() >= MAX_ATTEMPTS || PIN_IsTimeout()){
+                    state = 20;
+                } else {
+                    state = 9;
                 }
             }
-        break;
-        case 0x09: // retry
+            break;
+        case 9: // retry
                 if(permissionDeniedSent() == 0x10){
-                    state = 0x06; // re enter the pin.
+                    state = 6; // re enter the pin.
                 }
         break;
-        case 0x0A: 
+        case 10: 
             if (openInteriorDoorSent() == 0x20) {
                 TI_ResetTics(timer0);
-                state = 0x0B;
+                state = 11;
             }
             break;
-        case 0x0B: 
+        case 11: 
             if(TI_GetTics(timer0) >= TWO_SECONDS){
-                state = 0x0C;
+                state = 12;
             }
             break;
-        case 0x0C: 
+        case 12: 
             if(closeInteriorDoorSent() == 0x40){
                 SP_BeepHigh();
-                state = 0x0D;
+                state = 13;
             }
             break;
+        case 13: 
+            break;
+        case 14: 
+            break;
+        case 15: 
+            break;
+        case 16: 
+            break;
+        case 17: 
+            break;
+        case 18: 
+            break;
+        case 19: 
+            break;
+        case 20: 
+            break;
+        case 21:
+            break;
+        case 22: 
+            break;    
 
         default:
             // Optional: handle unexpected states
             state = 0x00;
             break;
+        }
 
     }
 }

@@ -16,7 +16,7 @@ static unsigned char openExteriorDoorMessage[31] = "> LSBank - Open exterior doo
 static void sendNewDayMessage(void);
 
 unsigned char newMessageSent(void) {
-    enablers |= 0x01;              // Enable "new day" message
+    enablers |= 0x01;              // Enable "new day" message // so the or operation
     return (confirmedEnablers & 0x01);
 }
 

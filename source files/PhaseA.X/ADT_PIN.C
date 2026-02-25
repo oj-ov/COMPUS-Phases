@@ -1,0 +1,77 @@
+#include "ADT_KEYSCAN.h"
+#include "ADT_KEYSMS.h"
+#include "ADT_PIN.h"
+
+#define PIN_LENGTH   7
+#define MAX_TIMEOUT  120000UL    
+#define WARN_FAST    105000UL 
+
+static char pin[PIN_LENGTH];
+static unsigned char pin_index = 0;
+static unsigned char pin_attempts = 0;
+static const char correct_pin[PIN_LENGTH] = "1611MON";
+static unsigned char pin_timer = 0;
+static unsigned char beep_timer = 0;
+
+void PIN_Init(void){
+    pin_attempts = 0;
+    pin_index = 0;
+}
+
+void PIN_StartEntry(void){
+    pin_index = 0;
+    TI_NewTimer(&pin_timer);
+    TI_ResetTics(pin_timer);
+    TI_NewTimer(&beep_timer);  
+    TI_ResetTics(beep_timer);
+}
+
+void PIN_Motor(void){
+    unsigned long time_elapse = TI_GetTics(pin_timer);
+    unsigned long beep_interval = (time_elapse < WARN_FAST) ? 1000UL : 500UL; 
+    KS_Motor();
+    KSMS_Motor();
+    if (TI_GetTics(beep_timer) >= beep_interval) {
+        TI_ResetTics(beep_timer);
+        SP_BeepLow();
+    }
+    
+    // to recieve characters
+    if(KSMS_hasNewChar()){
+        char ch = KSMS_getLastChar();
+        pin[pin_index++] = ch;
+        EU_SendChar(ch);                
+    }  
+}
+
+unsigned char PIN_isComplete(void){
+    return (pin_index >= PIN_LENGTH);
+}
+unsigned char PIN_isTimeout(void){
+    return (TI_GetTics(pin_timer) >= MAX_TIMEOUT);
+}
+
+unsigned char PIN_isValid(void){
+    unsigned char i;
+    for(i = 0; i < PIN_LENGTH; i++){
+        if(pin[i] != correct_pin[i]){
+            return 0;
+        }
+    }
+}
+
+unsigned char PIN_GetAttempts(void){
+    return pin_attempts;
+}
+
+void PIN_IncrementAttempts(void){
+    pin_attempts++;
+}
+
+void PIN_ResetAttempts(void){
+    pin_attempts = 0;
+}
+
+unsigned long PIN_GetElapsed(void){
+    return TI_GetTics(pin_timer);
+}

@@ -37,8 +37,9 @@ void initPorts(void) {
     TRISCbits.TRISC6 = 1;   // TX pin as input (auto-changes to output when writing TXREG)
     TRISCbits.TRISC7 = 1;   // RX pin as input
     
-    TRISAbits.TRISA3 = 0;
-    TRISAbits.TRISA4 = 0;
+    TRISAbits.TRISA3 = 0;// state alarm
+    TRISAbits.TRISA4 = 0;// intesity led
+    TRISCbits.TRISC4 = 0;//state ok(green)
     
 }
 

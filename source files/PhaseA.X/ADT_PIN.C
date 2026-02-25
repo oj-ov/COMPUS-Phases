@@ -1,3 +1,8 @@
+#include <xc.h>
+#include "pic18f4321.h"
+#include "ADT_TIMER.h"      
+#include "ADT_SPEAKER.h"   
+#include "ADT_EUSART.h"     
 #include "ADT_KEYSCAN.h"
 #include "ADT_KEYSMS.h"
 #include "ADT_PIN.h"
@@ -29,8 +34,8 @@ void PIN_StartEntry(void){
 void PIN_Motor(void){
     unsigned long time_elapse = TI_GetTics(pin_timer);
     unsigned long beep_interval = (time_elapse < WARN_FAST) ? 1000UL : 500UL; 
-    KS_Motor();
-    KSMS_Motor();
+    //KS_Motor();
+    //KSMS_Motor();
     if (TI_GetTics(beep_timer) >= beep_interval) {
         TI_ResetTics(beep_timer);
         SP_BeepLow();
@@ -44,20 +49,21 @@ void PIN_Motor(void){
     }  
 }
 
-unsigned char PIN_isComplete(void){
+unsigned char PIN_IsComplete(void){
     return (pin_index >= PIN_LENGTH);
 }
-unsigned char PIN_isTimeout(void){
+unsigned char PIN_IsTimeout(void){
     return (TI_GetTics(pin_timer) >= MAX_TIMEOUT);
 }
 
-unsigned char PIN_isValid(void){
+unsigned char PIN_IsValid(void){
     unsigned char i;
     for(i = 0; i < PIN_LENGTH; i++){
         if(pin[i] != correct_pin[i]){
             return 0;
         }
     }
+    return 1;
 }
 
 unsigned char PIN_GetAttempts(void){

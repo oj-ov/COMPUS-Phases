@@ -67,17 +67,17 @@ void MainControllerMotor(void) {
             }
             break;
         case 6: // enter pin and init pin timer
-                if(enterPinSent() == 0x08){
-                    PIN_StartEntry();
-                    OUT_LedIntensityOn();
-                    state = 7;
-                    
-                }
+            if(enterPinSent() == 0x08){
+                PIN_StartEntry();
+                OUT_LedIntensityOn();
+                state = 7;
+                
+            }
             break;
         case 7:
             //KS_Motor();
             //KSMS_Motor();
-            PIN_Motor();
+            //PIN_Motor();
             OUT_LedIntensityUpdate(PIN_GetElapsed());
             if(PIN_IsTimeout()){
                 state = 20; //alarm
@@ -103,10 +103,10 @@ void MainControllerMotor(void) {
             }
             break;
         case 9: // retry
-                if(permissionDeniedSent() == 0x10){
-                    state = 6; // re enter the pin.
-                }
-        break;
+            if(permissionDeniedSent() == 0x10){
+                state = 6; // re enter the pin.
+            }
+            break;
         case 10: 
             if (openInteriorDoorSent() == 0x20) {
                 TI_ResetTics(timer0);
@@ -132,7 +132,7 @@ void MainControllerMotor(void) {
         case 14:  // this calls the eusart function to check if the user has typed yes or no.
             if(exitRequestSent()){
                 state = 15;
-            
+            }
             break;
         case 15: 
             if(EU_recievedYes()){
@@ -163,6 +163,7 @@ void MainControllerMotor(void) {
             }
             break;
         case 19: 
+            SP_AlarmOff();
             PIN_ResetAttempts();
             OUT_LedAlarmOff();
             OUT_LedIntensityOff();
@@ -179,12 +180,13 @@ void MainControllerMotor(void) {
         case 21: // send thief message, then reset message
             if(thiefInterceptedSent()){
                 if(resetSystemSent()){ // 2nd message asking to reset
-                    State = 22;
+                    state = 22;
                 }
             }
             break;
         case 22: 
             if(EU_recievedYes()){
+                SP_AlarmOff();
                 OUT_LedAlarmOff();
                 OUT_LedIntensityOff();
                 OUT_LedOkOn();
@@ -192,7 +194,6 @@ void MainControllerMotor(void) {
                 state = 0;
             }
             break;    
-        }
-
     }
 }
+

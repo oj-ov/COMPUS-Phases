@@ -2,11 +2,10 @@
 #include "pic18f4321.h"
 #include "ADT_TIMER.h"
 #include "ADT_KEYSMS.h"
-#include <string.h>
 
 static unsigned char ksms_State = 0;
 static unsigned char ksms_timer = 0;
-static const char *ksms_table[10] = {"1", "ABC2", "DEF3", "GHI4", "JKL5", "MNO6", "PQRS7", "TUV8", "WXYZ9", "0 "};
+static const char ksms_table[10][5] = {"1", "ABC2", "DEF3", "GHI4", "JKL5", "MNO6", "PQRS7", "TUV8", "WXYZ9", "0 " };
 static unsigned char ksms_lastcharvalue = 0;
 static unsigned char ksms_newCharFlag = 0;
 static unsigned char ksms_index = 0;
@@ -14,7 +13,7 @@ static unsigned char ksms_lastdigit = 0xFF; // digit key which is currently bein
 
 void KSMS_Init(void) {
     //here we create virtual timer for for every key
-    TI_NewTimer(ksms_timer); // 1s 
+    TI_NewTimer(&ksms_timer); // 1s 
     ksms_State = 0;
     ksms_lastcharvalue = 0;
     ksms_newCharFlag = 0;
@@ -36,7 +35,7 @@ void KSMS_Motor(void){
     unsigned char hasKey = KS_hasNewKey();
     unsigned char key = 0;
     unsigned char digit;
-    const char *string;
+    //const char *string;
 
     if(hasKey){
         key = KS_getLastKey(); // get the key from KEYSCAN
@@ -44,7 +43,7 @@ void KSMS_Motor(void){
     switch (ksms_State){
         case 0: 
             if(hasKey){
-                if(key == 10 || key == 11){
+                if(key == * || key == #){
                     break; // break is accepted
                 }
                 digit = key; // 0..9
@@ -60,13 +59,13 @@ void KSMS_Motor(void){
                     break; // State = 0;
                 }
                 digit = key; // 0..9
-                unsigned long time_elapsed = TI_GetTics(&ksms_timer); // how long since last pressed.
+                unsigned long time_elapsed = TI_GetTics(ksms_timer); // how long since last pressed.
                 if((digit == ksms_lastdigit) && (time_elapsed < 1000)){ 
                     // Same digit pressed quickly -> cycle current character
-                    string = ksms_table[digit];
+                    //string = ksms_table[digit];
                     //ksms_table[digit] is the SMS string for that digit (like  "ABC2" ).
                     ksms_index++;
-                    if(ksms_index >= strlen(string)){
+                    if(ksms_table[digit][ksms_index] == '\0'){
                         ksms_index = 0; // for cyclic mode
                     }
                     TI_ResetTics(ksms_timer);
@@ -75,8 +74,8 @@ void KSMS_Motor(void){
                 else{//// Different digit OR >=1 second since last digit press
                     if(ksms_lastdigit != 0xFF){
                         // first to finalize the previous character, that is why we use lastdigit.
-                        string = ksms_table[ksms_lastdigit];
-                        ksms_lastcharvalue = string[ksms_index];
+                        //string = ksms_table[ksms_lastdigit];
+                        ksms_lastcharvalue = ksms_table[ksms_lastdigit][ksms_index];
                         ksms_newCharFlag = 1;
                     }
                     ksms_lastdigit = digit;

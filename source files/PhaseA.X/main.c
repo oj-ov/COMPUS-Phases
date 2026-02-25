@@ -1,19 +1,13 @@
-/*
- * File:   main.c
- * Author: waven
- *
- * Created on February 18, 2026, 11:41 AM
- */
-
 #include <xc.h>
-
-// Other ADTs
 #include "ADT_TIMER.h"
 #include "MAIN_CONTROLLER_ADT.h"
 #include "ADT_EUSART.h"
+#include "ADT_KEYSCAN.h"    
+#include "ADT_KEYSMS.h"     
+
 
 // CONFIG
-#pragma config OSC = HS        // 10 MHz crystal
+#pragma config OSC = HS // maybe hspll        // 10 MHz crystal
 #pragma config WDT = OFF
 #pragma config PBADEN = DIG
 
@@ -57,9 +51,14 @@ void main(void) {
     TI_Init();
     KS_Init();      
     KSMS_Init(); 
+    PIN_Init();
+    SP_Init();
+    EU_Init();
     while (1) {
         KS_Motor();
         KSMS_Motor();
+        SP_Motor();
+        PIN_Motor();
         MainControllerMotor();
         eusartMotor();
     }

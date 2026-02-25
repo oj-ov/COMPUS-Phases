@@ -10,33 +10,48 @@ static unsigned char KS_rawKey = 0; // takes the scanned value of they key
 static unsigned char KS_lastKey = 0;
 static unsigned char KS_newKeyFlag = 0;
 
-static const unsigned char ks_pos[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 0, 11}};// {*, 0, #}
+static const unsigned char ks_pos[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {*, 0, #}};
 //private function
 static unsigned char KS_Scan(void){
-    unsigned char row;
-    for(row = 0; row < 4; row++){
-        LATBbits.LATB2 = (row == 0) ? 0 : 1;
-        LATBbits.LATB3 = (row == 1) ? 0 : 1;
-        LATBbits.LATB4 = (row == 2) ? 0 : 1;
-        LATBbits.LATB5 = (row == 3) ? 0 : 1;
-        __delay_us(10);
-        if(PORTBbits.RB6 == 0){
-            return ks_pos[row][0];
-        }
-        if(PORTBbits.RB7 == 0){
-            return ks_pos[row][1];
-        }
-        if(PORTCbits.RC1 == 0){
-            return ks_pos[row][2];
-        }
-    }
+    LATBbits.LATB2 = 0;
+    LATBbits.LATB3 = 1;
+    LATBbits.LATB4 = 1;
+    LATBbits.LATB5 = 1;
+    if(PORTBbits.RB6 == 0) return 1;
+    if(PORTBbits.RB7 == 0) return 2;
+    if(PORTCbits.RC1 == 0) return 3;
+
+    LATBbits.LATB2 = 1;
+    LATBbits.LATB3 = 0;
+    LATBbits.LATB4 = 1;
+    LATBbits.LATB5 = 1;
+    if(PORTBbits.RB6 == 0) return 4;
+    if(PORTBbits.RB7 == 0) return 5;
+    if(PORTCbits.RC1 == 0) return 6;
+
+    LATBbits.LATB2 = 1;
+    LATBbits.LATB3 = 1;
+    LATBbits.LATB4 = 0;
+    LATBbits.LATB5 = 1;
+    if(PORTBbits.RB6 == 0) return 7;
+    if(PORTBbits.RB7 == 0) return 8;
+    if(PORTCbits.RC1 == 0) return 9;
+    
+    LATBbits.LATB2 = 1;
+    LATBbits.LATB3 = 1;
+    LATBbits.LATB4 = 1;
+    LATBbits.LATB5 = 0;
+    if(PORTBbits.RB6 == 0) return *;
+    if(PORTBbits.RB7 == 0) return 0;
+    if(PORTCbits.RC1 == 0) return #;
+
     //so if no key: all rows back to high
     LATBbits.LATB2 = 1;
     LATBbits.LATB3 = 1;
     LATBbits.LATB4 = 1;
     LATBbits.LATB5 = 1;
 
-    return 0;
+    return 0xFF;
 }
 
 void KS_Init(void){
@@ -57,7 +72,7 @@ void KS_Init(void){
     //set to digital
     ADCON1 = 0X0F;
     //create virtual timer for the debounces
-    TI_NewTimer(KS_debtimer);
+    TI_NewTimer(&KS_debtimer);
     //initial to start by having everything 0
     KS_State = 0;
     KS_rawKey = 0;
@@ -79,7 +94,7 @@ void KS_Motor(void){
     switch(KS_State){
         case 0: // IDLE state, keep on scanning for key press.
             KS_rawKey = KS_Scan();
-            if(KS_rawKey != 0){ // if the key press detected
+            if(KS_rawKey != 0xFF){ // if the key press detected
                 TI_ResetTics(KS_debtimer); // start debounce
                 KS_State = 1; // KS_State++;
             }
@@ -94,7 +109,7 @@ void KS_Motor(void){
         Use temp variable to store and compare.*/
             temp = KS_Scan(); // for new scan, if the last one gets lost? eaiser to compare
             //KS_rawKey = KS_Scan();
-            if(temp == KS_rawKey && temp != 0){
+            if(temp == KS_rawKey && temp != 0xFF){
                 // here if the same key stil pressed and real key are same values
                 KS_lastKey = KS_rawKey; //store it to the last updated key
                 KS_newKeyFlag = 1; // to say that new key entry is possible
@@ -105,7 +120,7 @@ void KS_Motor(void){
             }
         break;
         case 3:// dont start taking values again until the key is unpressed
-            if(KS_Scan() == 0){
+            if(KS_Scan() == 0xFF){
                 KS_State = 0;
             }
         break;

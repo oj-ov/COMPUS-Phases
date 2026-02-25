@@ -1,4 +1,5 @@
 #include <xc.h>
+#include "pic18f4321.h"
 #include "MAIN_CONTROLLER_ADT.h"
 #include "ADT_EUSART.h"
 #include "ADT_TIMER.h"
@@ -9,9 +10,10 @@
 #include "ADT_PIN.h"
 
 #define TWO_SECONDS 2000
+#define MAX_ATTEMPTS 3
 
 void MainControllerMotor(void) {
-
+    static unsigned char timer0 = 0;
     static unsigned char state = 0;
 
     switch (state) {
@@ -20,7 +22,8 @@ void MainControllerMotor(void) {
             /* Calling the EUSART ADT to enable its message being sent and then
              * waiting for it to be sent before changing the state
              */
-            pin_attempts = 0;
+            PIN_ResetAttempts();
+            OUT_LedOkOn();
             if (newMessageSent() == 0x01) {
                 state = 1;
             }
@@ -28,7 +31,7 @@ void MainControllerMotor(void) {
 
         case 1: // Surveillance state_ok = on, wait Hall sensor
             OUT_LedOkOn();   
-            if(LATDbits.LATD7 == 0 ){ // 1: No magnet. 0: Magnet.
+            if(OUT_HallDetected() ){ // 1: No magnet. 0: Magnet.
                 state = 2;
             }
             break;
@@ -75,7 +78,7 @@ void MainControllerMotor(void) {
             //KS_Motor();
             //KSMS_Motor();
             PIN_Motor();
-            OUT_LedIntensityUpdate(TI_GetPinElapsed());
+            OUT_LedIntensityUpdate(PIN_GetElapsed());
             if(PIN_IsTimeout()){
                 state = 20; //alarm
                 break;
@@ -121,31 +124,74 @@ void MainControllerMotor(void) {
                 state = 13;
             }
             break;
-        case 13: 
+        case 13: // waiting part for the button to be pressed.
+            if(OUT_ExitPressed()){
+                state = 14;
+            }
             break;
-        case 14: 
+        case 14:  // this calls the eusart function to check if the user has typed yes or no.
+            if(exitRequestSent()){
+                state = 15;
+            
             break;
         case 15: 
+            if(EU_recievedYes()){
+                state = 16;
+            }
+            else{
+                if(EU_recievedNo()){
+                    state = 20;
+                }
+            }
             break;
         case 16: 
+            if(openBothDoorsSent()){
+                TI_ResetTics(timer0);
+                state = 17;
+            }
             break;
-        case 17: 
+        case 17: // wait for 2 seconds to end so as to go for the messages
+            if(TI_GetTics(timer0) >= TWO_SECONDS){
+                TI_ResetTics(timer0);
+                state = 18;
+            }
             break;
         case 18: 
+            if(closeBothDoorsSent()){
+                SP_BeepHigh();
+                state = 19;
+            }
             break;
         case 19: 
+            PIN_ResetAttempts();
+            OUT_LedAlarmOff();
+            OUT_LedIntensityOff();
+            OUT_LedOkOn();//normal mode
+            state = 0;
             break;
-        case 20: 
+        case 20: // alarm: too many attempts/timeout/ "No"
+            OUT_LedOkOff();
+            OUT_LedAlarmOn();
+            OUT_LedIntensityOff();
+            SP_AlarmON();
+            state = 21;
             break;
-        case 21:
+        case 21: // send thief message, then reset message
+            if(thiefInterceptedSent()){
+                if(resetSystemSent()){ // 2nd message asking to reset
+                    State = 22;
+                }
+            }
             break;
         case 22: 
+            if(EU_recievedYes()){
+                OUT_LedAlarmOff();
+                OUT_LedIntensityOff();
+                OUT_LedOkOn();
+                PIN_ResetAttempts();
+                state = 0;
+            }
             break;    
-
-        default:
-            // Optional: handle unexpected states
-            state = 0x00;
-            break;
         }
 
     }

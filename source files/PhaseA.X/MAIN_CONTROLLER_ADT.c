@@ -12,7 +12,7 @@
 
 void MainControllerMotor(void) {
 
-    static unsigned char state = 0x00;
+    static unsigned char state = 0;
 
     switch (state) {
        

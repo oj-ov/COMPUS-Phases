@@ -1,10 +1,28 @@
 #include <xc.h>
 #include "ADT_EUSART.h"
-
+/*
+an idea for u to work on.
+enablers variable valurestorage
+bit 0 (0x01): new day
+bit 1 (0x02): open exterior
+bit 2 (0x04): close exterior
+bit 3 (0x08): enter PIN
+bit 4 (0x10): permission denied
+bit 5 (0x20): open interior
+bit 6 (0x40): close interior
+bit 7 (0x80): exit requested
+enablers2 variable value storage
+bit 0 (0x01): open both doors
+bit 1 (0x02): close both doors
+bit 2 (0x04): thief intercepted
+bit 3 (0x08): reset system
+*/
 // Enabler bits: each bit corresponds to a different message
 // Bit 0 = new day message
 unsigned char enablers = 0x00;
-unsigned char enablers_more = 0x00;
+unsigned char confirmed1 = 0x00;
+unsigned char enablers2 = 0x00;
+unsigned char confirmed2 = 0x00; 
 // Confirmation bits: set when a message has been fully sent
 unsigned char confirmedEnablers = 0x00;
 

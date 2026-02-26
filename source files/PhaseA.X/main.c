@@ -54,6 +54,7 @@ void main(void) {
     PIN_Init();
     SP_Init();
     EU_Init();
+    OUT_Init();
     while (1) {
         KS_Motor();
         KSMS_Motor();
@@ -61,5 +62,6 @@ void main(void) {
         PIN_Motor();
         MainControllerMotor();
         eusartMotor();
+        OUT_Motor();
     }
 }

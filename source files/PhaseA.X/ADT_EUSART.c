@@ -12,17 +12,23 @@ unsigned char confirmedEnablers = 0x00;
 static const char newDayMessage[ ] = "> LSBank - New day has started!\n";
 static const char openExteriorDoorMessage[ ] = "> LSBank - Open exterior door\n";
 static const char closeExteriorDoorMessage[ ] = "> LSBank - Close exterior door\n";
-static const char openInteriorDoorMessage[ ] = "> LSBank - Open Interior door\n";
-static const char closeInteriorDoorMessage[ ] = "> LSBank - Close exterior door\n";
-static const char closeInteriorDoorMessage[ ] = "> LSBank - Open both doors\n";
-static const char closeInteriorDoorMessage[ ] = "> LSBank - Close both doors\n";
 static const char enterPinMessage[ ] = "> LSBank - Enter PIN\n";
 static const char permissionDeniedMessage[ ] = "> LSBank - Permission denied\n";
+
+static const char openInteriorDoorMessage[ ] = "> LSBank - Open interior door\n";
+static const char closeInteriorDoorMessage[ ] = "> LSBank - Close interior door\n";
+static const char openBothDoorMessage[ ] = "> LSBank - Open both doors\n";
+static const char closeBothDoorMessage[ ] = "> LSBank - Close both doors\n";
+
+
+static const char thiefMessage[ ] = "> LSBank - Thief Intercepted\n";
+static const char resetMessage[ ] = "> LSBank - Reset System: \n";
 
 // Function prototypes (internal)
 static void sendNewDayMessage(void);
 
 unsigned char newMessageSent(void) {
+    confirmedEnablers &= ~0x01;
     enablers |= 0x01;              // Enable "new day" message // so the or operation
     return (confirmedEnablers & 0x01);
 }
@@ -33,7 +39,7 @@ unsigned char openExteriorDoorSent(void){
 }
 void EU_SendChar(char ch) {
     //TXSTA.TXLEN = 1; //this doesnt exist
-    while(TXSTAbits.TMRT == 0){
+    while(TXSTAbits.TRMT == 0){
         TXREG = ch;
     }
 }
@@ -52,10 +58,14 @@ unsigned char permissionDeniedSent(void){
     return (confirmedEnablers & 0x10); //returns 0x0A once done
 }
 
+unsigned char 
+
+
 static unsigned char sendMessage(const char *msg, unsigned char *index, unsigned char bit){
     if(msg[*index] != '\0'){ // if there are characters left to send
-        if(TXSTAbits.TMRT == 1){ // if the eusart hardware is ready 
-            TXREG = msg[*index++]; //so send the current char and increment the index
+        if(TXSTAbits.TRMT == 1){ // if the eusart hardware is ready 
+            TXREG = msg[*index]; //so send the current char and increment the index
+            (*index)++;
         }
         return 0; // to know its still sending
     }

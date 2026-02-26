@@ -16,4 +16,6 @@ void OUT_LedIntensityUpdate(unsigned long elapsed);
 unsigned char OUT_HallDetected(void);
 unsigned char OUT_ExitPressed(void);
 
+void OUT_Motor(void);
+
 #endif

@@ -60,6 +60,8 @@ void EU_SendChar(char ch) {
     while(TXSTAbits.TRMT == 0){
         TXREG = ch;
     }
+    //while(TXSTAbits.TRMT == 0);
+    //TXREG = ch;
 }
 unsigned char closeExteriorDoorSent(void){
     enablers |= 0x04; // bit 2
@@ -75,9 +77,6 @@ unsigned char permissionDeniedSent(void){
     enablers |= 0x10; // bit 3
     return (confirmedEnablers & 0x10); //returns 0x0A once done
 }
-
-unsigned char 
-
 
 static unsigned char sendMessage(const char *msg, unsigned char *index, unsigned char bit){
     if(msg[*index] != '\0'){ // if there are characters left to send
@@ -95,6 +94,24 @@ static unsigned char sendMessage(const char *msg, unsigned char *index, unsigned
         return 1; // the job is done
     }
 }
+
+static unsigned char sendMessage2(const char *msg, unsigned char *index, unsigned char bit){
+    if(msg[*index] != '\0'){ // if there are characters left to send
+        if(TXSTAbits.TRMT == 1){ // if the eusart hardware is ready 
+            TXREG = msg[*index]; //so send the current char and increment the index
+            (*index)++;
+        }
+        return 0; // to know its still sending
+    }
+    else{ // if nothing left to send
+        *index = 0; // reset the index for next part of message
+        // ~  is the bitwise NOT operator. It flips every bit in a byte
+        enablers2 &= ~bit; // to clear the reset bit
+        confirmedEnablers2 |= bit; // to set the confirmation bit
+        return 1; // the job is done
+    }
+}
+
 
 void eusartMotor(void) {
 

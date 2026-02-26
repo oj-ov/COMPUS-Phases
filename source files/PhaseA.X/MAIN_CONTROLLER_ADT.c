@@ -68,7 +68,8 @@ void MainControllerMotor(void) {
             break;
         case 6: // enter pin and init pin timer
             if(enterPinSent() == 0x08){
-                PIN_StartEntry();
+                TI_ResetTics(timer0); // reuse timer here
+                PIN_StartEntry(timer0);
                 OUT_LedIntensityOn();
                 state = 7;
                 

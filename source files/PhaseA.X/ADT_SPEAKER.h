@@ -9,7 +9,7 @@ void SP_BeepLow(void);
 
 void SP_AlarmON(void);
 
-void SP_OFF(void);
+void SP_AlarmOff(void);
 
 void SP_Motor(void);
 

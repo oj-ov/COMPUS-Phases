@@ -16,19 +16,19 @@ static unsigned char pin_index = 0;
 static unsigned char pin_attempts = 0;
 static const char correct_pin[PIN_LENGTH] = "1611MON";
 static unsigned char pin_timer = 0;
-static unsigned char beep_timer = 0;
+static unsigned long last_beep_tics = 0; 
 
 void PIN_Init(void){
     pin_attempts = 0;
     pin_index = 0;
 }
 
-void PIN_StartEntry(void){
+void PIN_StartEntry(unsigned char sharedEntry){
     pin_index = 0;
-    TI_NewTimer(&pin_timer);
+    pin_timer = sharedEntry;
+    //TI_NewTimer(&pin_timer);
     TI_ResetTics(pin_timer);
-    TI_NewTimer(&beep_timer);  
-    TI_ResetTics(beep_timer);
+    last_beep_tics = 0;
 }
 
 void PIN_Motor(void){
@@ -36,8 +36,8 @@ void PIN_Motor(void){
     unsigned long beep_interval = (time_elapse < WARN_FAST) ? 1000UL : 500UL; 
     //KS_Motor();
     //KSMS_Motor();
-    if (TI_GetTics(beep_timer) >= beep_interval) {
-        TI_ResetTics(beep_timer);
+    if ((time_elapse - last_beep_tics) >= beep_interval) {
+         last_beep_tics = time_elapse;   
         SP_BeepLow();
     }
     

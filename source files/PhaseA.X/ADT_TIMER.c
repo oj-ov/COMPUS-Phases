@@ -13,7 +13,7 @@
 #define T0CON_CONFIG 0x82
 #define RELOAD_TMR0 64911        // 2 ms, assuming FOsc at 10MHz.
 
-#define TI_NUMTIMERS 5              // Maximum mumber of virtual timers, to be adjusted at will
+#define TI_NUMTIMERS 8              // Maximum mumber of virtual timers, to be adjusted at will
 // CONSTANTS
 #define TI_FALSE 0
 #define TI_TRUE 1

@@ -16,7 +16,7 @@ void OUT_Init(void){
     TRISAbits.TRISA4 = 0; // intensity
     LATAbits.LATA4 = 0;
     TRISDbits.TRISD7 = 1; //hall sensor
-    TRISCbits.TRISC5 = 1; // exit request button
+    TRISBbits.TRISB0 = 1; // exit request button
 
     TI_NewTimer(&led_timer);
 }
@@ -48,7 +48,7 @@ unsigned char OUT_HallDetected(){
     return PORTbits.PORTD7 == 0;
 }
 unsigned char OUT_ExitPressed(){    
-    return PORTCbits.PORT5 == 0;
+    return Push0_ThereIsPressing();
 }
 
 void OUT_Motor(void){

@@ -2,6 +2,10 @@
 #include "pic18f4321.h"
 
 static unsigned char intensity_duty = 0; // 0 to 100 % brightness
+static unsigned long myTime = 0; // time elapsed since the intensity started increasing, in ms
+static unsigned long currentPwmTime = 1200; // the time at which the LED should be turned on/off based on the duty cycle
+static unsigned char led_timer;
+
 
 void OUT_Init(void){
     TRISCbits.TRISC4 = 0; // State_OK 
@@ -12,6 +16,8 @@ void OUT_Init(void){
     LATAbits.LATA4 = 0;
     TRISDbits.TRISD7 = 1; //hall sensor
     TRISCbits.TRISC5 = 1; // exit request button
+
+    TI_NewTimer(&led_timer);
 }
 
 void OUT_LedOkOn(){
@@ -28,6 +34,7 @@ void OUT_LedAlarmOff(){
     LATCbits.LATC3 = 0;    
 }
 void OUT_LedIntensityOn(){
+    TI_ResetTics(led_timer);
     intensity_duty = 100;
 }
 
@@ -35,15 +42,7 @@ void OUT_LedIntensityOff(){
     intensity_duty = 0;
     LATAbits.LATA4 = 0;
 }
-void OUT_LedIntensityUpdate(unsigned long time_elapsed){
-    // 0 to 120000 ms(2 mins) -> 0 - 100%
-    if(time_elapsed >= 120000UL){
-        intensity_duty = 0;
-    }
-    else{
-        intensity_duty = (unsigned char) ((time_elapsed * 100UL)/120000UL);
-    }
-}
+
 unsigned char OUT_HallDetected(){
     return PORTbits.PORTD7 == 0;
 }
@@ -52,15 +51,20 @@ unsigned char OUT_ExitPressed(){
 }
 
 void OUT_Motor(void){
-    static unsigned char pwm_count = 0;
-    pwm_count++;
-    if(pwm_count >= 100){
-        pwm_count = 0;
+    static unsigned char state = 0;
+    //LATAbits.LATA4 is the led intensity pin
+    switch(state){
+        case 0:
+            if(intensity_duty >= 100) state = 1;
+        break;
+
+        case 1:
+            if(myTime >= currentPwmTime){
+                
+            }
+        break;
+
     }
-    if(pwm_count < intensity_duty){
-        LATAbits.LATA4 = 1;
-    }
-    else{
-        LATAbits.LATA4 = 0;
-    }
+
+    
 }

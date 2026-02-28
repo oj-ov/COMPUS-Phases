@@ -6,7 +6,7 @@
 
 static unsigned char KS_State = 0; // for the states. 
 static unsigned char KS_debtimer = 0;
-static unsigned char KS_rawKey = 0; // takes the scanned value of they key
+static unsigned char KS_rawKey = 0; // takes the scanned value of the  key
 static unsigned char KS_lastKey = 0;
 static unsigned char KS_newKeyFlag = 0;
 
@@ -100,7 +100,7 @@ void KS_Motor(void){
             }
         break;
         case 1://debounce wait for 16 ms
-            if(TI_GetTics(KS_debtimer) >= 16){ // wait till debounce ends
+            if(TI_GetTics(KS_debtimer) >= 8){ // wait till debounce ends
                 KS_State = 2;
                 //KS_lastKey = 1;
             }

@@ -76,9 +76,6 @@ void MainControllerMotor(void) {
             }
             break;
         case 7:
-            //KS_Motor();
-            //KSMS_Motor();
-            //PIN_Motor();
             OUT_LedIntensityUpdate(PIN_GetElapsed());
             if(PIN_IsTimeout()){
                 state = 20; //alarm

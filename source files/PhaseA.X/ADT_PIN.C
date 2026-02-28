@@ -21,6 +21,7 @@ static unsigned long last_beep_tics = 0;
 void PIN_Init(void){
     pin_attempts = 0;
     pin_index = 0;
+    TI_NewTimer(&pin_timer);
 }
 
 void PIN_StartEntry(unsigned char sharedEntry){
@@ -55,12 +56,13 @@ unsigned char PIN_IsTimeout(void){
 }
 
 unsigned char PIN_IsValid(void){
-    unsigned char i;
-    for(i = 0; i < PIN_LENGTH; i++){
-        if(pin[i] != correct_pin[i]){
-            return 0;
-        }
-    }
+    if(pin[0] != correct_pin[0]) return 0;
+    if(pin[1] != correct_pin[1]) return 0;
+    if(pin[2] != correct_pin[2]) return 0;
+    if(pin[3] != correct_pin[3]) return 0;
+    if(pin[4] != correct_pin[4]) return 0;
+    if(pin[5] != correct_pin[5]) return 0;
+    if(pin[6] != correct_pin[6]) return 0;
     return 1;
 }
 

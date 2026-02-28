@@ -34,8 +34,6 @@ void PIN_StartEntry(unsigned char sharedEntry){
 void PIN_Motor(void){
     unsigned long time_elapse = TI_GetTics(pin_timer);
     unsigned long beep_interval = (time_elapse < WARN_FAST) ? 1000UL : 500UL; 
-    //KS_Motor();
-    //KSMS_Motor();
     if ((time_elapse - last_beep_tics) >= beep_interval) {
          last_beep_tics = time_elapse;   
         SP_BeepLow();

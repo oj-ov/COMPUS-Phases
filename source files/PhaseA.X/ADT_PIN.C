@@ -24,9 +24,9 @@ void PIN_Init(void){
     TI_NewTimer(&pin_timer);
 }
 
-void PIN_StartEntry(unsigned char sharedEntry){
+void PIN_StartEntry(void){
     pin_index = 0;
-    pin_timer = sharedEntry;
+    //pin_timer = sharedEntry;
     //TI_NewTimer(&pin_timer);
     TI_ResetTics(pin_timer);
     last_beep_tics = 0;

@@ -1,9 +1,10 @@
 #include <xc.h>
 #include "pic18f4321.h"
 
+#define TWO_MINUTES 120000UL
+
 static unsigned char intensity_duty = 0; // 0 to 100 % brightness
-static unsigned long myTime = 0; // time elapsed since the intensity started increasing, in ms
-static unsigned long currentPwmTime = 1200; // the time at which the LED should be turned on/off based on the duty cycle
+static unsigned long initialPWM = TWO_MINUTES; // the time at which the LED should be turned on/off based on the duty cycle
 static unsigned char led_timer;
 
 
@@ -52,19 +53,35 @@ unsigned char OUT_ExitPressed(){
 
 void OUT_Motor(void){
     static unsigned char state = 0;
+    static unsigned long counter = 0;
+    static unsigned long pwm_limit = TWO_MINUTES;
+
     //LATAbits.LATA4 is the led intensity pin
     switch(state){
-        case 0:
-            if(intensity_duty >= 100) state = 1;
-        break;
 
-        case 1:
-            if(myTime >= currentPwmTime){
-                
+        case 0:
+            if(intensity_duty >= 100){
+                state = 1;
+                counter = 0;
+                pwm_limit = TWO_MINUTES;
             }
         break;
 
-    }
+        case 1:
+            if(TI_getTics(led_timer) <= TWO_MINUTES){
+                if(counter >= pwm_limit){
+                    LATAbits.LATA4 ^= 1;
+                    pwm_limit = (pwm_limit * 3) / 4;
+                    counter = 0;
+                }else{
+                    counter++;
+                }
+            }
+            else{
+                intensity_duty = 0;
+                state = 0;
+            }
+        break;
 
-    
+    } 
 }

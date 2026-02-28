@@ -41,7 +41,7 @@ void PIN_Motor(void){
     }
     
     // to recieve characters
-    if(KSMS_hasNewChar()){
+    if(KSMS_hasNewChar() && pin_index < PIN_LENGTH){
         char ch = KSMS_getLastChar();
         pin[pin_index++] = ch;
         EU_SendChar(ch);                

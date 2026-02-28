@@ -4,46 +4,49 @@
 #include "ADT_TIMER.h"
 #include "ADT_KEYSCAN.h"
 
+#define KY_AST 10
+#define KY_HASH 11
+
 static unsigned char KS_State = 0; // for the states. 
 static unsigned char KS_debtimer = 0;
 static unsigned char KS_rawKey = 0; // takes the scanned value of the  key
 static unsigned char KS_lastKey = 0;
 static unsigned char KS_newKeyFlag = 0;
 
-static const unsigned char ks_pos[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {*, 0, #}};
+static const unsigned char ks_pos[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {KY_AST, 0,KY_HASH}};
 //private function
 static unsigned char KS_Scan(void){
     LATBbits.LATB2 = 0;
     LATBbits.LATB3 = 1;
     LATBbits.LATB4 = 1;
     LATBbits.LATB5 = 1;
-    if(PORTBbits.RB6 == 0) return 1;
-    if(PORTBbits.RB7 == 0) return 2;
-    if(PORTCbits.RC1 == 0) return 3;
+    if(PORTBbits.RB6 == 0) return ks_pos[0][0];
+    if(PORTBbits.RB7 == 0) return ks_pos[0][1];
+    if(PORTCbits.RC1 == 0) return ks_pos[0][2];
 
     LATBbits.LATB2 = 1;
     LATBbits.LATB3 = 0;
     LATBbits.LATB4 = 1;
     LATBbits.LATB5 = 1;
-    if(PORTBbits.RB6 == 0) return 4;
-    if(PORTBbits.RB7 == 0) return 5;
-    if(PORTCbits.RC1 == 0) return 6;
+    if(PORTBbits.RB6 == 0) return ks_pos[1][0];
+    if(PORTBbits.RB7 == 0) return ks_pos[1][1];
+    if(PORTCbits.RC1 == 0) return ks_pos[1][2];
 
     LATBbits.LATB2 = 1;
     LATBbits.LATB3 = 1;
     LATBbits.LATB4 = 0;
     LATBbits.LATB5 = 1;
-    if(PORTBbits.RB6 == 0) return 7;
-    if(PORTBbits.RB7 == 0) return 8;
-    if(PORTCbits.RC1 == 0) return 9;
+    if(PORTBbits.RB6 == 0) return ks_pos[2][0];
+    if(PORTBbits.RB7 == 0) return ks_pos[2][1];
+    if(PORTCbits.RC1 == 0) return ks_pos[2][2];
     
     LATBbits.LATB2 = 1;
     LATBbits.LATB3 = 1;
     LATBbits.LATB4 = 1;
     LATBbits.LATB5 = 0;
-    if(PORTBbits.RB6 == 0) return *;
-    if(PORTBbits.RB7 == 0) return 0;
-    if(PORTCbits.RC1 == 0) return #;
+    if(PORTBbits.RB6 == 0) return ks_pos[3][0];
+    if(PORTBbits.RB7 == 0) return ks_pos[3][1];
+    if(PORTCbits.RC1 == 0) return ks_pos[3][2];
 
     //so if no key: all rows back to high
     LATBbits.LATB2 = 1;

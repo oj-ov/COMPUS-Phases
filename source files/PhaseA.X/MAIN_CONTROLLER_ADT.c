@@ -12,8 +12,14 @@
 #define TWO_SECONDS 2000
 #define MAX_ATTEMPTS 3
 
+unsigned char timer0 = 0;
+
+void initMainController(void){
+    TI_NewTimer(&timer0);
+}
+
 void MainControllerMotor(void) {
-    static unsigned char timer0 = 0;
+
     static unsigned char state = 0;
 
     switch (state) {
@@ -46,7 +52,6 @@ void MainControllerMotor(void) {
         // STATE 3: 
         // Create new timer to count new seconds and reset its ticks
         case 3:
-            TI_NewTimer(&timer0);
             TI_ResetTics(timer0);
             state = 4;
             break;
@@ -68,7 +73,7 @@ void MainControllerMotor(void) {
             break;
         case 6: // enter pin and init pin timer
             if(enterPinSent() == 0x08){
-                TI_ResetTics(timer0);
+                //TI_ResetTics(timer0);
                 PIN_StartEntry();
                 OUT_LedIntensityOn();
                 state = 7;
@@ -76,7 +81,7 @@ void MainControllerMotor(void) {
             }
             break;
         case 7:
-            OUT_LedIntensityUpdate(PIN_GetElapsed());
+            //OUT_LedIntensityUpdate(PIN_GetElapsed());
             if(PIN_IsTimeout()){
                 state = 20; //alarm
                 break;
